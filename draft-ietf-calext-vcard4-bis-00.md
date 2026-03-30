@@ -301,12 +301,12 @@ the type name and present the types and values as normal.
 Property cardinalities are indicated using the following notation,
 which is based on ABNF (see {{!RFC5234}}, Section 3.6):
 
-| Cardinality | Meaning |
-|:-----------:|---------|
-| 1 | Exactly one instance per vCard MUST be present. |
-| \*1 | Exactly one instance per vCard MAY be present. |
-| 1\* | One or more instances per vCard MUST be present. |
-| \* | One or more instances per vCard MAY be present. |
+| Cardinality   | Meaning                                          |
+| :-----------: | ------------------------------------------------ |
+| 1             | Exactly one instance per vCard MUST be present.  |
+| \*1           | Exactly one instance per vCard MAY be present.   |
+| 1\*           | One or more instances per vCard MUST be present. |
+| \*            | One or more instances per vCard MAY be present.  |
 
 Properties defined in a vCard instance may have multiple values
 depending on the property cardinality.  The general rule for encoding
@@ -3283,83 +3283,83 @@ registries are grouped together under the heading "vCard Elements".
 The following table has been used to initialize the properties
 registry.
 
-| Namespace | Property | Reference |
-|-----------|----------|-----------|
-| | SOURCE | RFC 6350, Section 6.1.3 |
-| | KIND | RFC 6350, Section 6.1.4 |
-| | XML | RFC 6350, Section 6.1.5 |
-| | FN | RFC 6350, Section 6.2.1 |
-| | N | RFC 6350, Section 6.2.2 |
-| | NICKNAME | RFC 6350, Section 6.2.3 |
-| | PHOTO | RFC 6350, Section 6.2.4 |
-| | BDAY | RFC 6350, Section 6.2.5 |
-| | ANNIVERSARY | RFC 6350, Section 6.2.6 |
-| | GENDER | RFC 6350, Section 6.2.7 |
-| | ADR | RFC 6350, Section 6.3.1 |
-| | TEL | RFC 6350, Section 6.4.1 |
-| | EMAIL | RFC 6350, Section 6.4.2 |
-| | IMPP | RFC 6350, Section 6.4.3 |
-| | LANG | RFC 6350, Section 6.4.4 |
-| | TZ | RFC 6350, Section 6.5.1 |
-| | GEO | RFC 6350, Section 6.5.2 |
-| | TITLE | RFC 6350, Section 6.6.1 |
-| | ROLE | RFC 6350, Section 6.6.2 |
-| | LOGO | RFC 6350, Section 6.6.3 |
-| | ORG | RFC 6350, Section 6.6.4 |
-| | MEMBER | RFC 6350, Section 6.6.5 |
-| | RELATED | RFC 6350, Section 6.6.6 |
-| | CATEGORIES | RFC 6350, Section 6.7.1 |
-| | NOTE | RFC 6350, Section 6.7.2 |
-| | PRODID | RFC 6350, Section 6.7.3 |
-| | REV | RFC 6350, Section 6.7.4 |
-| | SOUND | RFC 6350, Section 6.7.5 |
-| | UID | RFC 6350, Section 6.7.6 |
-| | CLIENTPIDMAP | RFC 6350, Section 6.7.7 |
-| | URL | RFC 6350, Section 6.7.8 |
-| | VERSION | RFC 6350, Section 6.7.9 |
-| | KEY | RFC 6350, Section 6.8.1 |
-| | FBURL | RFC 6350, Section 6.9.1 |
-| | CALADRURI | RFC 6350, Section 6.9.2 |
-| | CALURI | RFC 6350, Section 6.9.3 |
+| Namespace   | Property     | Reference               |
+| ----------- | ------------ | ----------------------- |
+|             | SOURCE       | RFC 6350, Section 6.1.3 |
+|             | KIND         | RFC 6350, Section 6.1.4 |
+|             | XML          | RFC 6350, Section 6.1.5 |
+|             | FN           | RFC 6350, Section 6.2.1 |
+|             | N            | RFC 6350, Section 6.2.2 |
+|             | NICKNAME     | RFC 6350, Section 6.2.3 |
+|             | PHOTO        | RFC 6350, Section 6.2.4 |
+|             | BDAY         | RFC 6350, Section 6.2.5 |
+|             | ANNIVERSARY  | RFC 6350, Section 6.2.6 |
+|             | GENDER       | RFC 6350, Section 6.2.7 |
+|             | ADR          | RFC 6350, Section 6.3.1 |
+|             | TEL          | RFC 6350, Section 6.4.1 |
+|             | EMAIL        | RFC 6350, Section 6.4.2 |
+|             | IMPP         | RFC 6350, Section 6.4.3 |
+|             | LANG         | RFC 6350, Section 6.4.4 |
+|             | TZ           | RFC 6350, Section 6.5.1 |
+|             | GEO          | RFC 6350, Section 6.5.2 |
+|             | TITLE        | RFC 6350, Section 6.6.1 |
+|             | ROLE         | RFC 6350, Section 6.6.2 |
+|             | LOGO         | RFC 6350, Section 6.6.3 |
+|             | ORG          | RFC 6350, Section 6.6.4 |
+|             | MEMBER       | RFC 6350, Section 6.6.5 |
+|             | RELATED      | RFC 6350, Section 6.6.6 |
+|             | CATEGORIES   | RFC 6350, Section 6.7.1 |
+|             | NOTE         | RFC 6350, Section 6.7.2 |
+|             | PRODID       | RFC 6350, Section 6.7.3 |
+|             | REV          | RFC 6350, Section 6.7.4 |
+|             | SOUND        | RFC 6350, Section 6.7.5 |
+|             | UID          | RFC 6350, Section 6.7.6 |
+|             | CLIENTPIDMAP | RFC 6350, Section 6.7.7 |
+|             | URL          | RFC 6350, Section 6.7.8 |
+|             | VERSION      | RFC 6350, Section 6.7.9 |
+|             | KEY          | RFC 6350, Section 6.8.1 |
+|             | FBURL        | RFC 6350, Section 6.9.1 |
+|             | CALADRURI    | RFC 6350, Section 6.9.2 |
+|             | CALURI       | RFC 6350, Section 6.9.3 |
 
 ### Parameters Registry
 
 The following table has been used to initialize the parameters
 registry.
 
-| Namespace | Parameter | Reference |
-|-----------|-----------|-----------|
-| | LANGUAGE | RFC 6350, Section 5.1 |
-| | VALUE | RFC 6350, Section 5.2 |
-| | PREF | RFC 6350, Section 5.3 |
-| | ALTID | RFC 6350, Section 5.4 |
-| | PID | RFC 6350, Section 5.5 |
-| | TYPE | RFC 6350, Section 5.6 |
-| | MEDIATYPE | RFC 6350, Section 5.7 |
-| | CALSCALE | RFC 6350, Section 5.8 |
-| | SORT-AS | RFC 6350, Section 5.9 |
-| | GEO | RFC 6350, Section 5.10 |
-| | TZ | RFC 6350, Section 5.11 |
+| Namespace   | Parameter   | Reference              |
+| ----------- | ----------- | ---------------------- |
+|             | LANGUAGE    | RFC 6350, Section 5.1  |
+|             | VALUE       | RFC 6350, Section 5.2  |
+|             | PREF        | RFC 6350, Section 5.3  |
+|             | ALTID       | RFC 6350, Section 5.4  |
+|             | PID         | RFC 6350, Section 5.5  |
+|             | TYPE        | RFC 6350, Section 5.6  |
+|             | MEDIATYPE   | RFC 6350, Section 5.7  |
+|             | CALSCALE    | RFC 6350, Section 5.8  |
+|             | SORT-AS     | RFC 6350, Section 5.9  |
+|             | GEO         | RFC 6350, Section 5.10 |
+|             | TZ          | RFC 6350, Section 5.11 |
 
 ### Value Data Types Registry
 
 The following table has been used to initialize the parameters
 registry.
 
-| Value Data Type | Reference |
-|-----------------|-----------|
-| BOOLEAN | RFC 6350, Section 4.4 |
-| DATE | RFC 6350, Section 4.3.1 |
-| DATE-AND-OR-TIME | RFC 6350, Section 4.3.4 |
-| DATE-TIME | RFC 6350, Section 4.3.3 |
-| FLOAT | RFC 6350, Section 4.6 |
-| INTEGER | RFC 6350, Section 4.5 |
-| LANGUAGE-TAG | RFC 6350, Section 4.8 |
-| TEXT | RFC 6350, Section 4.1 |
-| TIME | RFC 6350, Section 4.3.2 |
-| TIMESTAMP | RFC 6350, Section 4.3.5 |
-| URI | RFC 6350, Section 4.2 |
-| UTC-OFFSET | RFC 6350, Section 4.7 |
+| Value Data Type   | Reference               |
+| ----------------- | ----------------------- |
+| BOOLEAN           | RFC 6350, Section 4.4   |
+| DATE              | RFC 6350, Section 4.3.1 |
+| DATE-AND-OR-TIME  | RFC 6350, Section 4.3.4 |
+| DATE-TIME         | RFC 6350, Section 4.3.3 |
+| FLOAT             | RFC 6350, Section 4.6   |
+| INTEGER           | RFC 6350, Section 4.5   |
+| LANGUAGE-TAG      | RFC 6350, Section 4.8   |
+| TEXT              | RFC 6350, Section 4.1   |
+| TIME              | RFC 6350, Section 4.3.2 |
+| TIMESTAMP         | RFC 6350, Section 4.3.5 |
+| URI               | RFC 6350, Section 4.2   |
+| UTC-OFFSET        | RFC 6350, Section 4.7   |
 
 ### Values Registries
 
@@ -3368,50 +3368,50 @@ Separate tables are used for property and parameter values.
 The following table is to be used to initialize the property values
 registry.
 
-| Property | Value | Reference |
-|----------|-------|-----------|
-| BEGIN | VCARD | RFC 6350, Section 6.1.1 |
-| END | VCARD | RFC 6350, Section 6.1.2 |
-| KIND | individual | RFC 6350, Section 6.1.4 |
-| KIND | group | RFC 6350, Section 6.1.4 |
-| KIND | org | RFC 6350, Section 6.1.4 |
-| KIND | location | RFC 6350, Section 6.1.4 |
+| Property   | Value      | Reference               |
+| ---------- | ---------- | ----------------------- |
+| BEGIN      | VCARD      | RFC 6350, Section 6.1.1 |
+| END        | VCARD      | RFC 6350, Section 6.1.2 |
+| KIND       | individual | RFC 6350, Section 6.1.4 |
+| KIND       | group      | RFC 6350, Section 6.1.4 |
+| KIND       | org        | RFC 6350, Section 6.1.4 |
+| KIND       | location   | RFC 6350, Section 6.1.4 |
 
 The following table has been used to initialize the parameter values
 registry.
 
-| Property | Parameter | Value | Reference |
-|----------|-----------|-------|-----------|
+| Property          | Parameter   | Value        | Reference                           |
+| ----------------- | ----------- | ------------ | ----------------------------------- |
 | FN, NICKNAME, PHOTO, ADR, TEL, EMAIL, IMPP, LANG, TZ, GEO, TITLE, ROLE, LOGO, ORG, RELATED, CATEGORIES, NOTE, SOUND, URL, KEY, FBURL, CALADRURI, and CALURI | TYPE | work | RFC 6350, Section 5.6 |
 | FN, NICKNAME, PHOTO, ADR, TEL, EMAIL, IMPP, LANG, TZ, GEO, TITLE, ROLE, LOGO, ORG, RELATED, CATEGORIES, NOTE, SOUND, URL, KEY, FBURL, CALADRURI, and CALURI | TYPE | home | RFC 6350, Section 5.6 |
-| TEL | TYPE | text | RFC 6350, Section 6.4.1 |
-| TEL | TYPE | voice | RFC 6350, Section 6.4.1 |
-| TEL | TYPE | fax | RFC 6350, Section 6.4.1 |
-| TEL | TYPE | cell | RFC 6350, Section 6.4.1 |
-| TEL | TYPE | video | RFC 6350, Section 6.4.1 |
-| TEL | TYPE | pager | RFC 6350, Section 6.4.1 |
-| TEL | TYPE | textphone | RFC 6350, Section 6.4.1 |
-| BDAY, ANNIVERSARY | CALSCALE | gregorian | RFC 6350, Section 5.8 |
-| RELATED | TYPE | contact | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | acquaintance | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | friend | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | met | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | co-worker | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | colleague | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | co-resident | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | neighbor | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | child | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | parent | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | sibling | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | spouse | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | kin | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | muse | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | crush | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | date | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | sweetheart | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | me | RFC 6350, Section 6.6.6 and {{xfn}} |
-| RELATED | TYPE | agent | RFC 6350, Section 6.6.6 |
-| RELATED | TYPE | emergency | RFC 6350, Section 6.6.6 |
+| TEL               | TYPE        | text         | RFC 6350, Section 6.4.1             |
+| TEL               | TYPE        | voice        | RFC 6350, Section 6.4.1             |
+| TEL               | TYPE        | fax          | RFC 6350, Section 6.4.1             |
+| TEL               | TYPE        | cell         | RFC 6350, Section 6.4.1             |
+| TEL               | TYPE        | video        | RFC 6350, Section 6.4.1             |
+| TEL               | TYPE        | pager        | RFC 6350, Section 6.4.1             |
+| TEL               | TYPE        | textphone    | RFC 6350, Section 6.4.1             |
+| BDAY, ANNIVERSARY | CALSCALE    | gregorian    | RFC 6350, Section 5.8               |
+| RELATED           | TYPE        | contact      | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | acquaintance | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | friend       | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | met          | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | co-worker    | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | colleague    | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | co-resident  | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | neighbor     | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | child        | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | parent       | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | sibling      | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | spouse       | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | kin          | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | muse         | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | crush        | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | date         | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | sweetheart   | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | me           | RFC 6350, Section 6.6.6 and {{xfn}} |
+| RELATED           | TYPE        | agent        | RFC 6350, Section 6.6.6             |
+| RELATED           | TYPE        | emergency    | RFC 6350, Section 6.6.6             |
 
 # Acknowledgments
 
