@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+"""strip-guff: remove boilerplate lines from RFC/I-D plain text for diffing."""
+
+import re
+import signal
+import sys
+
+signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
+PAGE_FOOTER = re.compile(r'^Perreault\b.*\[Page \d+\]\s*$')
+RUNNING_HDR = re.compile(r'^(?:RFC 6350|Internet-Draft)\b.*\b[A-Z][a-z]+ \d{4}\s*$')
+FORMFEED    = re.compile(r'^\x0c\s*$')
+
+def main():
+    with open(sys.argv[1], encoding='utf-8', errors='replace') as fh:
+        for line in fh:
+            line = line.rstrip('\r\n')
+            if not line.strip():          continue   # blank
+            if FORMFEED.match(line):      continue   # form feed only
+            if PAGE_FOOTER.match(line):   continue   # Perreault ... [Page N]
+            if RUNNING_HDR.match(line):   continue   # RFC 6350 / Internet-Draft ... Month YYYY
+            print(line)
+
+if __name__ == '__main__':
+    main()
