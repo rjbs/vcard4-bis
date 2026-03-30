@@ -1908,7 +1908,7 @@ TZ-param =/ altid-param / pid-param / pref-param / type-param
 Examples:
 
 ~~~
-  TZ:Raleigh/North America
+  TZ:America/New_York
 
   TZ;VALUE=utc-offset:-0500
     ; Note: utc-offset format is NOT RECOMMENDED.
