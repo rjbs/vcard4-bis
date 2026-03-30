@@ -3,7 +3,7 @@ title: "vCard Format Specification"
 abbrev: vCard
 category: std
 
-obsoletes: [2425, 2426, 4770]
+obsoletes: [2425, 2426, 4770, 6350]
 updates: [2739]
 docname: draft-ietf-calext-vcard4-bis-00
 submissiontype: IETF
@@ -17,16 +17,10 @@ keyword:
   - vcard
 
 author:
-  - fullname: Simon Perreault
-    organization: Viagenie
-    street: "2875 Laurier, suite D2-630"
-    city: Quebec
-    region: QC
-    code: G1V 2M2
-    country: Canada
-    phone: "+1 418 656 9254"
-    email: simon.perreault@viagenie.ca
-    uri: http://www.viagenie.ca
+  - fullname: Ricardo Signes
+    organization: Fastmail
+    email: rjbs@semiotic.systems
+    role: editor
 
 normative:
   CCITT.X520.1988:
