@@ -1767,7 +1767,7 @@ Cardinality
 : \*
 
 Special notes
-: The property can include tye "PREF" parameter to
+: The property can include type "PREF" parameter to
   indicate a preferred-use email address when more than one is
   specified.
 
