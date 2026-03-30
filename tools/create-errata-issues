@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Fetch RFC 6350 errata and create GitHub issues, one at a time."""
+
+import json
+import re
+import subprocess
+import sys
+import urllib.request
+
+ERRATA_URL = "https://www.rfc-editor.org/errata.json"
+DOC_ID     = "RFC6350"
+
+LABELS = [
+    ("errata",                   "5319e7", "IETF erratum"),
+    ("technical",                "d93f0b", "Technical erratum"),
+    ("editorial",                "0e8a16", "Editorial erratum"),
+    ("verified",                 "0075ca", "Erratum has been verified"),
+    ("reported",                 "e4e669", "Erratum has been reported but not yet verified"),
+    ("held-for-document-update", "f9d0c4", "Erratum held for document update"),
+]
+
+STATUS_LABEL = {
+    "Verified":                  "verified",
+    "Reported":                  "reported",
+    "Held for Document Update":  "held-for-document-update",
+}
+
+TYPE_LABEL = {
+    "Technical": "technical",
+    "Editorial": "editorial",
+}
+
+
+def fetch_errata():
+    print(f"Fetching {ERRATA_URL} (this is the full errata list, may take a moment)…")
+    with urllib.request.urlopen(ERRATA_URL) as resp:
+        data = json.load(resp)
+    errata = [e for e in data
+              if e.get("doc-id") == DOC_ID
+              and e.get("errata_status_code") != "Rejected"]
+    return sorted(errata, key=lambda e: e["errata_id"])
+
+
+def md_escape(text):
+    """Escape characters that Markdown would interpret structurally."""
+    return re.sub(r'([\\`*_{}\[\]<>#+\-!|])', r'\\\1', text)
+
+
+def format_body(e):
+    parts = []
+
+    parts.append(f"Erratum id: {e['errata_id']}")
+    parts.append(f"Type: {e.get('errata_type_code', '(unknown)')}")
+    parts.append(f"Submitted: by {e.get('submitter_name', '(unknown)')} at {e.get('submit_date', '(unknown)')}")
+    if e.get("verifier_name"):
+        parts.append(f"Verified: by {e['verifier_name']}")
+    parts.append(f"Erratum status: {e.get('errata_status_code', '(unknown)')}")
+    parts.append(f"Section: {e.get('section') or '(unspecified)'}")
+    parts.append("")
+    parts.append(f"<https://www.rfc-editor.org/errata/eid{e['errata_id']}>")
+
+    if (e.get("notes") or "").strip():
+        parts.append("")
+        parts.append("Notes:")
+        parts.append(md_escape(e["notes"].strip()))
+
+    if (e.get("orig_text") or "").strip():
+        parts.append("")
+        parts.append("Original text:")
+        parts.append("```")
+        parts.append(e["orig_text"].strip())
+        parts.append("```")
+
+    if (e.get("correct_text") or "").strip():
+        parts.append("")
+        parts.append("Corrected text:")
+        parts.append("```")
+        parts.append(e["correct_text"].strip())
+        parts.append("```")
+
+    return "\n".join(parts)
+
+
+def issue_title(e):
+    section = e.get("section") or "unknown section"
+    return f"Erratum #{e['errata_id']} ({e.get('errata_type_code', 'unknown')}): Section {section}"
+
+
+def issue_labels(e):
+    labels = ["errata"]
+    if lbl := STATUS_LABEL.get(e.get("errata_status_code", "")):
+        labels.append(lbl)
+    if lbl := TYPE_LABEL.get(e.get("errata_type_code", "")):
+        labels.append(lbl)
+    return labels
+
+
+def ensure_labels():
+    print("Ensuring labels exist…")
+    for name, color, description in LABELS:
+        r = subprocess.run(
+            ["gh", "label", "create", name,
+             "--color", color, "--description", description, "--force"],
+            capture_output=True, text=True,
+        )
+        if r.returncode != 0:
+            print(f"  warning: could not create label '{name}': {r.stderr.strip()}")
+    print()
+
+
+def prompt(msg):
+    """Return True=create, False=skip, and exit on 'q'."""
+    while True:
+        try:
+            answer = input(msg).strip().lower()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            sys.exit(0)
+        if answer in ("y", "yes"):
+            return True
+        if answer in ("n", "no", "s", "skip"):
+            return False
+        if answer in ("q", "quit"):
+            sys.exit(0)
+        print("  Please answer y / n / q")
+
+
+def main():
+    errata = fetch_errata()
+    print(f"Found {len(errata)} non-rejected errata for {DOC_ID}.\n")
+
+    ensure_labels()
+
+    for i, e in enumerate(errata, 1):
+        title  = issue_title(e)
+        body   = format_body(e)
+        labels = issue_labels(e)
+
+        print("=" * 72)
+        print(f"[{i}/{len(errata)}]  {title}")
+        print(f"Labels: {', '.join(labels)}")
+        print()
+        print(body)
+        print()
+
+        if not prompt("Create this issue? [y/n/q] "):
+            print("Skipped.\n")
+            continue
+
+        r = subprocess.run(
+            ["gh", "issue", "create",
+             "--title", title,
+             "--body",  body,
+             "--label", ",".join(labels)],
+            capture_output=True, text=True,
+        )
+        if r.returncode == 0:
+            print(f"Created: {r.stdout.strip()}\n")
+        else:
+            print(f"Error creating issue: {r.stderr.strip()}\n", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
