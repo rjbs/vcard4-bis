@@ -3,8 +3,8 @@ title: "vCard Format Specification"
 abbrev: vCard
 category: std
 
-obsoletes: [ 2425, 2426, 4770, 6350 ]
-updates: [ 2739 ]
+obsoletes: 2425, 2426, 4770, 6350
+updates: 2739
 docname: draft-ietf-calext-vcard4-bis-00
 submissiontype: IETF
 number:
