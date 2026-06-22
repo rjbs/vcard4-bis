@@ -24,12 +24,6 @@ author:
 
 normative:
   CCITT.X520.1988:
-    title: "Information Technology - Open Systems Interconnection - The Directory: Selected Attribute Types"
-    author:
-      org: "International Telephone and Telegraph Consultative Committee"
-    date: 1988-11
-    seriesinfo:
-      "CCITT Recommendation": X.520
   IEEE.754.2008:
     title: "Standard for Binary Floating-Point Arithmetic"
     author:
@@ -54,17 +48,6 @@ normative:
   RFC2045:
   RFC4288:
   W3C.REC-xml-20081126:
-    title: "Extensible Markup Language (XML) 1.0 (Fifth Edition)"
-    author:
-      - name: "Eve Maler"
-      - name: "Francois Yergeau"
-      - name: "C. M. Sperberg-McQueen"
-      - name: "Jean Paoli"
-      - name: "Tim Bray"
-    date: 2008-11-26
-    target: http://www.w3.org/TR/2008/REC-xml-20081126
-    seriesinfo:
-      "World Wide Web Consortium Recommendation": "REC-xml-20081126"
   xfn:
     title: "XFN 1.1 profile"
     author:
@@ -90,13 +73,6 @@ informative:
     seriesinfo:
       "ISO": "9070"
   RFC5335bis:
-    title: "Internationalized Email Headers"
-    author:
-      - name: "Abel Yang"
-      - name: "Shawn Steele"
-    date: 2011-07
-    seriesinfo:
-      Internet-Draft: draft-yang-yao-5335bis
   TZ-DB:
     title: "Time zone code and data"
     author:
