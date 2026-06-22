@@ -1507,7 +1507,7 @@ Examples:
 ~~~
           BDAY:19960415
           BDAY:--0415
-          BDAY;19531015T231000Z
+          BDAY:19531015T231000Z
           BDAY;VALUE=text:circa 1800
 ~~~
 
