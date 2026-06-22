@@ -742,7 +742,7 @@ value-type = "text"
            / "float"
            / "utc-offset"
            / "language-tag"
-           / iana-token  ; registered as described in section 12
+           / iana-token  ; registered as described in section 10.2.5
            / x-name
 ~~~
 
