@@ -257,7 +257,7 @@ param = language-param / value-param / pref-param / pid-param
       / calscale-param / any-param
   ; Allowed parameters depend on property name.
 
-param-value = *SAFE-CHAR / DQUOTE *QSAFE-CHAR DQUOTE
+param-value = *SAFE-CHAR / ( DQUOTE *QSAFE-CHAR DQUOTE )
 
 any-param  = (iana-token / x-name) "=" param-value *("," param-value)
 
