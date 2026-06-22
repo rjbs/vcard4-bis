@@ -836,7 +836,7 @@ and these three would be legal but questionable:
    illegal because N has cardinality *1.)
 ~~~
 
-The ALTID property MAY also be used in may contexts other than with
+The ALTID property MAY also be used in many contexts other than with
 the LANGUAGE parameter.  Here's an example with two representations
 of the same photo in different file formats:
 
