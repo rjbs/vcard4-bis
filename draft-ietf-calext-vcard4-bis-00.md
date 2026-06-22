@@ -2735,6 +2735,7 @@ For example, PID value "5.1", in the first vCard below, and PID value
 ~~~
   BEGIN:VCARD
   VERSION:4.0
+  FN:J. Doe
   EMAIL;PID=4.2,5.1:jdoe@example.com
   CLIENTPIDMAP:1;urn:uuid:3eef374e-7179-4196-a914-27358c3e6527
   CLIENTPIDMAP:2;urn:uuid:42bcd5a7-1699-4514-87b4-056edf68e9cc
@@ -2742,6 +2743,7 @@ For example, PID value "5.1", in the first vCard below, and PID value
 
   BEGIN:VCARD
   VERSION:4.0
+  FN:J. Doe
   EMAIL;PID=5.1,5.2:john@example.com
   CLIENTPIDMAP:1;urn:uuid:0c75c629-6a8d-4d5e-a07f-1bb35846854d
   CLIENTPIDMAP:2;urn:uuid:3eef374e-7179-4196-a914-27358c3e6527
