@@ -2927,7 +2927,7 @@ EMAIL;TYPE=work:simon.perreault@viagenie.ca
 GEO;TYPE=work:geo:46.772673,-71.282945
 KEY;TYPE=work;VALUE=uri:
  http://www.viagenie.ca/simon.perreault/simon.asc
-TZ:-0500
+TZ:America/Toronto
 URL;TYPE=home:http://nomis80.org
 END:VCARD
 ~~~
