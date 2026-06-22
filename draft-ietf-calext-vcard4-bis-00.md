@@ -3496,3 +3496,29 @@ that have been made in the vCard specification from RFCs 2425 and
 * The MEDIATYPE parameter has been added and replaces the TYPE
   parameter when it was used for indicating the media type of the
   property's content.
+
+
+## Updated Property Value Data Types
+
+* The syntax of the UTC-OFFSET property value type has changed from:
+
+~~~
+"+" / "-" hour ":" minute
+~~~
+
+to
+
+~~~
+"+" / "-" hour [minute]
+~~~
+
+* The default value type for the UID property has changed from TEXT to URI.
+
+* The default value type for the PHOTO, LOGO, SOUND, and KEY properties has
+  changed from BINARY to URI.
+
+* The default value type for the TZ property has changed from UTC-OFFSET to
+  TEXT.
+
+* The value type for the GEO property has changed from a structured value of
+  the form: float ";" float to a URI.
