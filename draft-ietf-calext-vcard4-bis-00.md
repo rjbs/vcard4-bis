@@ -1529,9 +1529,12 @@ Cardinality
 ABNF:
 
 ~~~ abnf
-ANNIVERSARY-param = "VALUE=" ("date-and-or-time" / "text")
+ANNIVERSARY-param = ANNIVERSARY-param-date / ANNIVERSARY-param-text
 ANNIVERSARY-value = date-and-or-time / text
   ; Value and parameter MUST match.
+
+ANNIVERSARY-param-date = "VALUE=date-and-or-time"
+ANNIVERSARY-param-text = "VALUE=text" / language-param
 
 ANNIVERSARY-param =/ altid-param / calscale-param / any-param
   ; calscale-param can only be present when ANNIVERSARY-value is
