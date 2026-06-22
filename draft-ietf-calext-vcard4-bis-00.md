@@ -2384,11 +2384,11 @@ Purpose
 : To give a global meaning to a local PID source identifier.
 
 Value type
-: A semicolon-separated pair of values.  The first field
-  is a small integer corresponding to the second field of a PID
-  parameter instance.  The second field is a URI.  The "uuid" URN
-  namespace defined in {{!RFC4122}} is particularly well suited to this
-  task, but other URI schemes MAY be used.
+: A single structured text value consisting of components separated by the
+  SEMICOLON character (U+003B). The first component is a small integer
+  corresponding to the second component of a PID parameter instance.  The
+  second component is a URI. The "uuid" URN namespace defined in {{!RFC4122}}
+  is particularly well suited to this task, but other URI schemes MAY be used.
 
 Cardinality
 : \*
