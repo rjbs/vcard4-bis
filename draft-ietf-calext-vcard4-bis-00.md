@@ -142,7 +142,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 # vCard Format Specification
 
 The text/vcard MIME content type (hereafter known as "vCard"; see
-Section 10.1) contains contact information, typically pertaining to a
+[](#media-type-reg)) contains contact information, typically pertaining to a
 single contact or group of contacts.  The content consists of one or
 more lines in the format given below.
 
@@ -151,9 +151,9 @@ more lines in the format given below.
 The charset (see {{?RFC3536}} for internationalization terminology) for
 vCard is UTF-8 as defined in {{!RFC3629}}.  There is no way to override
 this.  It is invalid to specify a value other than "UTF-8" in the
-"charset" MIME parameter (see Section 10.1).
+"charset" MIME parameter (see [](#media-type-reg)).
 
-## Line Delimiting and Folding
+## Line Delimiting and Folding {#line-folding}
 
 Individual lines within vCard are delimited by the {{!RFC5322}} line
 break, which is a CRLF sequence (U+000D followed by U+000A).  Long
@@ -275,7 +275,7 @@ VALUE-CHAR = WSP / VCHAR / NON-ASCII
 ~~~
 
 A line that begins with a white space character is a continuation of
-the previous line, as described in Section 3.2.  The white space
+the previous line, as described in [](#line-folding).  The white space
 character and immediately preceeding CRLF should be discarded when
 reconstructing the original line.  Note that this line-folding
 convention differs from that found in {{!RFC5322}}, in that the sequence
@@ -436,7 +436,7 @@ iana-valuespec = <value-spec, see Section 12>
 
 "text": The "text" value type should be used to identify values that
 contain human-readable text.  As for the language, it is controlled
-by the LANGUAGE property parameter defined in Section 5.1.
+by the LANGUAGE property parameter defined in [](#param-language).
 
 Examples for "text":
 
@@ -693,7 +693,7 @@ characters or URI text.
 Applications MUST ignore x-param and iana-param values they don't
 recognize.
 
-## LANGUAGE
+## LANGUAGE {#param-language}
 
 The LANGUAGE property parameter is used to identify data in multiple
 languages.  There is no concept of "default" language, except as
@@ -777,7 +777,7 @@ pref-param = "PREF=" (1*2DIGIT / "100")
 The ALTID parameter is used to "tag" property instances as being
 alternative representations of the same logical property.  For
 example, translations of a property in multiple languages generates
-multiple property instances having different LANGUAGE (Section 5.1)
+multiple property instances having different LANGUAGE ([](#param-language))
 parameter that are tagged with the same ALTID value.
 
 This parameter's value is treated as an opaque string.  Its sole
@@ -793,8 +793,8 @@ parameter are not globally unique: they MAY be reused for different
 property names.
 
 Property instances having the same ALTID parameter value count as 1
-toward cardinality.  Therefore, since N (Section 6.2.2) has
-cardinality \*1 and TITLE (Section 6.6.1) has cardinality \*, these
+toward cardinality.  Therefore, since N ([](#prop-n)) has
+cardinality \*1 and TITLE ([](#prop-title)) has cardinality \*, these
 three examples would be legal:
 
 ~~~
@@ -855,13 +855,13 @@ altid-param = "ALTID=" param-value
 
 The PID parameter is used to identify a specific property among
 multiple instances.  It plays a role analogous to the UID property
-(Section 6.7.6) on a per-property instead of per-vCard basis.  It MAY
+([](#prop-uid)) on a per-property instead of per-vCard basis.  It MAY
 appear more than once in a given property.  It MUST NOT appear on
 properties that may have only one instance per vCard.  Its value is
 either a single small positive integer or a pair of small positive
 integers separated by a dot.  Multiple values may be encoded in a
 single PID parameter by separating the values with a comma ",".  See
-Section 7 for more details on its usage.
+[](#synchronization) for more details on its usage.
 
 ABNF:
 
@@ -930,7 +930,7 @@ calendar system in which a date or date-time value is expressed.  The
 only value specified by iCalendar is "gregorian", which stands for
 the Gregorian system.  It is the default when the parameter is
 absent.  Additional values may be defined in extension documents and
-registered with IANA (see Section 10.3.4).  A vCard implementation
+registered with IANA (see [](#values-registries)).  A vCard implementation
 MUST ignore properties with a CALSCALE parameter value that it does
 not understand.
 
@@ -1012,7 +1012,7 @@ If sorted by given name, the results would be:
 
 The GEO parameter can be used to indicate global positioning
 information that is specific to an address.  Its value is the same as
-that of the GEO property (see Section 6.5.2).
+that of the GEO property (see [](#prop-geo)).
 
 ABNF:
 
@@ -1032,7 +1032,7 @@ ABNF:
 tz-parameter = "TZ=" (param-value / DQUOTE URI DQUOTE)
 ~~~
 
-# vCard Properties
+# vCard Properties {#vcard-properties}
 
 What follows is an enumeration of the standard vCard properties.
 
@@ -1114,7 +1114,7 @@ Example:
       END:VCARD
 ~~~
 
-### SOURCE
+### SOURCE {#prop-source}
 
 Purpose
 : To identify the source of directory information contained
@@ -1217,7 +1217,7 @@ Special notes
      use and are unlikely to interoperate.
 
   An iana-token.  Additional values may be registered with IANA (see
-     Section 10.3.4).  A new value's specification document MUST
+     [](#values-registries)).  A new value's specification document MUST
      specify which properties make sense for that new kind of vCard
      and which do not.
 
@@ -1363,7 +1363,7 @@ Example:
       FN:Mr. John Q. Public\, Esq.
 ~~~
 
-### N
+### N {#prop-n}
 
 Purpose
 : To specify the components of the name of the object the
@@ -1615,7 +1615,7 @@ Special notes
      the region (e.g., state or province);
      the postal code;
      the country name (full name in the language specified in
-     Section 5.1).
+     [](#param-language)).
 
   When a component value is missing, the associated component
   separator MUST still be specified.
@@ -1678,7 +1678,7 @@ address are absent.
 These properties describe information about how to communicate with
 the object the vCard represents.
 
-### TEL
+### TEL {#prop-tel}
 
 Purpose
 : To specify the telephone number for telephony communication
@@ -1723,7 +1723,7 @@ Special notes
   TYPE="voice,fax".
 
   If this property's value is a URI that can also be used for
-  instant messaging, the IMPP (Section 6.4.3) property SHOULD be
+  instant messaging, the IMPP ([](#prop-impp)) property SHOULD be
   used in addition to this property.
 
 ABNF:
@@ -1793,7 +1793,7 @@ Example:
         EMAIL;PREF=1:jane_doe@example.com
 ~~~
 
-### IMPP
+### IMPP {#prop-impp}
 
 Purpose
 : To specify the URI for instant messaging and presence
@@ -1811,7 +1811,7 @@ Special notes
   semantics as the "PREF" parameter in a TEL property.
 
   If this property's value is a URI that can be used for voice
-  and/or video, the TEL property (Section 6.4.1) SHOULD be used in
+  and/or video, the TEL property ([](#prop-tel)) SHOULD be used in
   addition to this property.
 
   This property is adapted from {{?RFC4770}}, which is made obsolete by
@@ -1914,7 +1914,7 @@ Examples:
     ; Note: utc-offset format is NOT RECOMMENDED.
 ~~~
 
-### GEO
+### GEO {#prop-geo}
 
 Purpose
 : To specify information related to the global positioning of
@@ -1950,7 +1950,7 @@ These properties are concerned with information associated with
 characteristics of the organization or organizational units of the
 object that the vCard represents.
 
-### TITLE
+### TITLE {#prop-title}
 
 Purpose
 : To specify the position or job of the object the vCard
@@ -2154,7 +2154,7 @@ Cardinality
 Special notes
 : The TYPE parameter MAY be used to characterize the
   related entity.  It contains a comma-separated list of values that
-  are registered with IANA as described in Section 10.2.  The
+  are registered with IANA as described in [](#registering-elements).  The
   registry is pre-populated with the values defined in {{xfn}}.  This
   document also specifies two additional values:
 
@@ -2294,7 +2294,7 @@ Example:
         PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN
 ~~~
 
-### REV
+### REV {#prop-rev}
 
 Purpose
 : To specify revision information about the current vCard.
@@ -2356,7 +2356,7 @@ Example:
    <...the remainder of base64-encoded data...>
 ~~~
 
-### UID
+### UID {#prop-uid}
 
 Purpose
 : To specify a value that represents a globally unique
@@ -2417,7 +2417,7 @@ Special notes
   second field in a PID parameter instance) are small integers that
   only have significance within the scope of a single vCard
   instance.  Each distinct source identifier present in a vCard MUST
-  have an associated CLIENTPIDMAP.  See Section 7 for more details
+  have an associated CLIENTPIDMAP.  See [](#synchronization) for more details
   on the usage of CLIENTPIDMAP.
 
   PID source identifiers MUST be strictly positive.  Zero is not
@@ -2470,7 +2470,7 @@ Example:
         URL:http://example.org/restaurant.french/~chezchic.html
 ~~~
 
-### VERSION
+### VERSION {#prop-version}
 
 Purpose
 : To specify the version of the vCard specification used to
@@ -2507,7 +2507,7 @@ Example:
 These properties are concerned with the security of communication
 pathways or access to the vCard.
 
-### KEY
+### KEY {#prop-key}
 
 Purpose
 : To specify a public key or authentication certificate
@@ -2663,7 +2663,7 @@ extended.  Non-standard, private properties and parameters with a
 name starting with "X-" may be defined bilaterally between two
 cooperating agents without outside registration or standardization.
 
-# Synchronization
+# Synchronization {#synchronization}
 
 vCard data often needs to be synchronized between devices.  In this
 context, synchronization is defined as the intelligent merging of two
@@ -2685,14 +2685,14 @@ synchronization engine.
 
 ### Matching vCard Instances
 
-vCard instances for which the UID properties (Section 6.7.6) are
+vCard instances for which the UID properties ([](#prop-uid)) are
 equivalent MUST be matched.  Equivalence is determined as specified
 in {{!RFC3986}}, Section 6.
 
 In all other cases, vCard instances MAY be matched at the discretion
 of the synchronization engine.
 
-### Matching Property Instances
+### Matching Property Instances {#matching-property-instances}
 
 Property instances belonging to unmatched vCards MUST NOT be matched.
 
@@ -2708,12 +2708,12 @@ same, and whose maximum cardinality is 1, MUST be matched.
 
 Property instances belonging to matched vCards, whose name is the
 same, and whose PID parameters match, MUST be matched.  See
-Section 7.1.3 for details on PID matching.
+[](#pid-matching) for details on PID matching.
 
 In all other cases, property instances MAY be matched at the
 discretion of the synchronization engine.
 
-### PID Matching
+### PID Matching {#pid-matching}
 
 Two PID values for which the first fields are equivalent represent
 the same local value.
@@ -2875,7 +2875,7 @@ Although the situation appears to be the same for the TEL properties,
 in this case, the synchronization engine is particularly smart and
 matches the two new TEL properties even though their PID global
 values are different.  Note that in this case, the rules of
-Section 7.1.2 state that two properties MAY be matched at the
+[](#matching-property-instances) state that two properties MAY be matched at the
 discretion of the synchronization engine.  Therefore, the two
 properties are merged.
 
@@ -2951,7 +2951,7 @@ URL;TYPE=home:http://nomis80.org
 END:VCARD
 ~~~
 
-# Security Considerations
+# Security Considerations {#security-considerations}
 
 * Internet mail is often used to transport vCards and is subject to
   many well-known security attacks, including monitoring, replay,
@@ -2962,7 +2962,7 @@ END:VCARD
   directory data in a "safe" environment.
 
 * vCards can carry cryptographic keys or certificates, as described
-  in Section 6.8.1.
+  in [](#prop-key).
 
 * vCards often carry information that can be sensitive (e.g.,
   birthday, address, and phone information).  Although vCards have
@@ -2972,13 +2972,13 @@ END:VCARD
   {{?RFC5751}}, OpenPGP {{?RFC4880}}).  In cases where the confidentiality
   or authenticity of information contained in vCard is a concern,
   the vCard SHOULD be transported using one of these secure
-  mechanisms.  The KEY property (Section 6.8.1) can be used to
+  mechanisms.  The KEY property ([](#prop-key)) can be used to
   transport the public key used by these mechanisms.
 
 * The information in a vCard may become out of date.  In cases where
   the vitality of data is important to an originator of a vCard, the
-  SOURCE property (Section 6.1.3) SHOULD be specified.  In addition,
-  the "REV" type described in Section 6.7.4 can be specified to
+  SOURCE property ([](#prop-source)) SHOULD be specified.  In addition,
+  the "REV" type described in [](#prop-rev) can be specified to
   indicate the last time that the vCard data was updated.
 
 * Many vCard properties may be used to transport URIs.  Please refer
@@ -2986,7 +2986,7 @@ END:VCARD
 
 # IANA Considerations
 
-## Media Type Registration
+## Media Type Registration {#media-type-reg}
 
 IANA has registered the following Media Type (in
 <http://www.iana.org/>) and marked the text/directory Media Type as
@@ -3022,7 +3022,7 @@ Encoding considerations
 : 8bit
 
 Security considerations
-: See Section 9.
+: See [](#security-considerations).
 
 Interoperability considerations
 : The text/vcard media type is
@@ -3030,7 +3030,7 @@ Interoperability considerations
   specifications of vCard {{?RFC2426}}{{vCard21}} still in common use.
   While these formats are similar, they are not strictly compatible.
   In general, it is necessary to inspect the value of the VERSION
-  property (see Section 6.7.9) for identifying the standard to which
+  property (see [](#prop-version)) for identifying the standard to which
   a given vCard object conforms.
 
   In addition, the following media types are known to have been used
@@ -3075,7 +3075,7 @@ Author
 Change controller
 : IETF
 
-## Registering New vCard Elements
+## Registering New vCard Elements {#registering-elements}
 
 This section defines the process for registering new or modified
 vCard elements (i.e., properties, parameters, value data types, and
@@ -3166,7 +3166,7 @@ Value type
   specified.
 
 Cardinality
-: See Section 6.
+: See [](#vcard-properties).
 
 Property parameters
 : Any of the valid property parameters for the
@@ -3363,7 +3363,7 @@ registry.
 | URI               | RFC 6350, Section 4.2   |
 | UTC-OFFSET        | RFC 6350, Section 4.7   |
 
-### Values Registries
+### Values Registries {#values-registries}
 
 Separate tables are used for property and parameter values.
 
