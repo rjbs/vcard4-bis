@@ -373,8 +373,10 @@ TEXT-CHAR = "\\" / "\," / "\n" / WSP / NON-ASCII
           / %x21-2B / %x2D-5B / %x5D-7E
    ; Backslashes, commas, and newlines must be encoded.
 
-component = "\\" / "\," / "\;" / "\n" / WSP / NON-ASCII
+COMPONENT-CHAR = "\\" / "\," / "\;" / "\n" / WSP / NON-ASCII
           / %x21-2B / %x2D-3A / %x3C-5B / %x5D-7E
+
+component = *COMPONENT-CHAR
 list-component = component *("," component)
 
 text-list             = text             *("," text)
