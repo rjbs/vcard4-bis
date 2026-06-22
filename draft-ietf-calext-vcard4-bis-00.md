@@ -968,22 +968,22 @@ property.
 
 ~~~
         FN:Rene van der Harten
-        N;SORT-AS="Harten,Rene":van der Harten;Rene,J.;Sir;R.D.O.N.
+        N;SORT-AS="Harten,Rene":van der Harten;Rene;J.;Sir;R.D.O.N.
 
         FN:Robert Pau Shou Chang
-        N;SORT-AS="Pau Shou Chang,Robert":Shou Chang;Robert,Pau;;
+        N;SORT-AS="Pau Shou Chang,Robert":Shou Chang;Robert;Pau;;
 
         FN:Osamu Koura
-        N;SORT-AS="Koura,Osamu":Koura;Osamu;;
+        N;SORT-AS="Koura,Osamu":Koura;Osamu;;;
 
         FN:Oscar del Pozo
-        N;SORT-AS="Pozo,Oscar":del Pozo Triscon;Oscar;;
+        N;SORT-AS="Pozo,Oscar":del Pozo Triscon;Oscar;;;
 
         FN:Chistine d'Aboville
-        N;SORT-AS="Aboville,Christine":d'Aboville;Christine;;
+        N;SORT-AS="Aboville,Christine":d'Aboville;Christine;;;
 
         FN:H. James de Mann
-        N;SORT-AS="Mann,James":de Mann;Henry,James;;
+        N;SORT-AS="Mann,James":de Mann;Henry;James;;
 ~~~
 
 If sorted by surname, the results would be:
