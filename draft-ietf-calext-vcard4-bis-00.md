@@ -3343,7 +3343,7 @@ registry.
 
 ### Value Data Types Registry
 
-The following table has been used to initialize the parameters
+The following table has been used to initialize the data types
 registry.
 
 | Value Data Type   | Reference               |
