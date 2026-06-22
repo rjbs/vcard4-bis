@@ -3378,6 +3378,7 @@ registry.
 | KIND       | group      | RFC 6350, Section 6.1.4 |
 | KIND       | org        | RFC 6350, Section 6.1.4 |
 | KIND       | location   | RFC 6350, Section 6.1.4 |
+| VERSION    | 4.0        | RFC 6350, Section 6.7.9 |
 
 The following table has been used to initialize the parameter values
 registry.
