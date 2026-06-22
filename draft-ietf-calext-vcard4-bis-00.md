@@ -426,9 +426,9 @@ utc-offset = sign hour [minute]
 
 Language-Tag = <Language-Tag, defined in [RFC5646], Section 2.1>
 
-iana-valuespec = <value-spec, see Section 12>
+iana-valuespec = <value-spec, see Section 10.2.5>
                ; a publicly defined valuetype format, registered
-               ; with IANA, as defined in Section 12 of this
+               ; with IANA, as defined in Section 10.2.5 of this
                ; document.
 ~~~
 
