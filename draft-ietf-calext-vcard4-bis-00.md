@@ -826,7 +826,7 @@ and these three would be legal but questionable:
   (Should probably have the same ALTID value.)
 
   TITLE;ALTID=1;LANGUAGE=fr:Patron
-  TITLE:LANGUAGE=en:Boss
+  TITLE;LANGUAGE=en:Boss
   (Second line should probably have ALTID=1.)
 
   N;ALTID=1;LANGUAGE=jp:<U+5C71><U+7530>;<U+592A><U+90CE>;;;
