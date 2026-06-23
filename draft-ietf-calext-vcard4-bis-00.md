@@ -389,8 +389,8 @@ date-noreduc  = year     month  day
 date-complete = year     month  day
 
 time          = hour [minute [second]] [zone]
-              /  "-"  minute [second]  [zone]
-              /  "-"   "-"    second   [zone]
+              /  "-"  minute [second]
+              /  "-"   "-"    second
 time-notrunc  = hour [minute [second]] [zone]
 time-complete = hour  minute  second   [zone]
 
