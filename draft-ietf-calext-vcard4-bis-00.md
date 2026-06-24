@@ -243,8 +243,8 @@ NON-ASCII = UTF8-2 / UTF8-3 / UTF8-4
 QSAFE-CHAR = WSP / "!" / %x23-7E / NON-ASCII
   ; Any character except CTLs, DQUOTE but including HTAB
 
-SAFE-CHAR = WSP / "!" / %x23-39 / %x3C-7E / NON-ASCII
-  ; Any character except CTLs, DQUOTE, ";", ":" but including HTAB
+SAFE-CHAR = WSP / "!" / %x23-2B / %x2D-39 / %x3C-7E / NON-ASCII
+  ; Any character except CTLs, DQUOTE, ",", ";", ":" but including HTAB
 ~~~
 
 A line that begins with a white space character is a continuation of
