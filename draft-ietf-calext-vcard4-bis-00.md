@@ -291,34 +291,44 @@ each value (including the property name).  However, it should be
 noted that some value types support encoding multiple values in a
 single content line by separating the values with a comma ",".  This
 approach has been taken for several of the content types defined
-below (date, time, integer, float).
+below (date, time, integer, float).  A property whose value is
+structured, such as ADR or ORG, MUST NOT combine multiple instances on a
+single content line; each instance is placed on its own line.
 
 ## Property Value Escaping
 
-Some properties may contain one or more values delimited by a COMMA
-character (U+002C).  Therefore, a COMMA character in a value MUST be
-escaped with a BACKSLASH character (U+005C), even for properties that
-don't allow multiple instances (for consistency).
+Within a property value, certain characters are escaped using a BACKSLASH
+character (U+005C).  A COMMA (U+002C) or a SEMICOLON (U+003B) is escaped by
+preceding it with a BACKSLASH, so that it is not taken for a separator; a
+literal BACKSLASH is written as two BACKSLASH characters; and a NEWLINE
+(U+000A) is encoded as a BACKSLASH followed by an 'n' (U+006E) or an 'N'
+(U+004E).  Which of these characters must be escaped depends on the value's
+type.
 
-Some properties (e.g., N and ADR) comprise multiple fields delimited
-by a SEMICOLON character (U+003B).  Therefore, a SEMICOLON in a field
-of such a "compound" property MUST be escaped with a BACKSLASH
-character.  SEMICOLON characters in non-compound properties MAY be
-escaped.  On input, an escaped SEMICOLON character is never a field
-separator.  An unescaped SEMICOLON character may be a field
-separator, depending on the property in which it appears.
+A "text" value MUST escape any COMMA it contains, even for a property that
+does not allow multiple values (for consistency), and MUST escape any
+BACKSLASH or NEWLINE.  It MAY escape a SEMICOLON but need not, because
+within a "text" value a SEMICOLON is ordinary content rather than a
+separator.
 
-Furthermore, some fields of compound properties may contain a list of
-values delimited by a COMMA character.  Therefore, a COMMA character
-in one of a field's values MUST be escaped with a BACKSLASH
-character, even for fields that don't allow multiple values (for
-consistency).  Compound properties allowing multiple instances MUST
-NOT be encoded in a single content line.
+A "component" value -- the building block of structured properties like
+those of N, ADR, and ORG values -- MUST escape any COMMA, SEMICOLON,
+BACKSLASH, or NEWLINE it contains, even where the structure does not
+allow multiple values (for consistency).
 
-Finally, BACKSLASH characters in values MUST be escaped with a
-BACKSLASH character.  NEWLINE (U+000A) characters in values MUST be
-encoded by two characters: a BACKSLASH followed by either an 'n'
-(U+006E) or an 'N' (U+004E).
+Outside of "text" and "component" values, none of these characters is
+escaped.  Most value types cannot contain any of them, and although a
+"uri" value may contain a COMMA or a SEMICOLON ({{!RFC3986}}), a URI is
+never in a list or component list.  For tolerance of vCards produced
+under earlier specifications, a parser MAY accept a backslash-escaped
+COMMA or SEMICOLON within a "uri" value as the literal character.
+
+A few properties define a structured value as a fixed sequence of fields
+rather than from "component" values; CLIENTPIDMAP and GENDER are
+examples in this document.  In each, the field preceding the semicolon
+cannot itself contain a semicolon, so the grammar locates the separator
+unambiguously; the semicolon is not escaped, and each field is
+interpreted according to its own type.
 
 In all other cases, escaping MUST NOT be used.
 
@@ -345,9 +355,10 @@ value = text
 
 text = *TEXT-CHAR
 
-TEXT-CHAR = "\\" / "\," / "\n" / WSP / NON-ASCII
+TEXT-CHAR = "\\" / "\," / "\;" / "\n" / WSP / NON-ASCII
           / %x21-2B / %x2D-5B / %x5D-7E
-   ; Backslashes, commas, and newlines must be encoded.
+   ; Backslashes, commas, and newlines must be encoded;
+   ; semicolons may be.
 
 COMPONENT-CHAR = "\\" / "\," / "\;" / "\n" / WSP / NON-ASCII
           / %x21-2B / %x2D-3A / %x3C-5B / %x5D-7E
