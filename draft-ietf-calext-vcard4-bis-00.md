@@ -1696,12 +1696,12 @@ Special notes
   | textphone | Indicates a telecommunication device for people with hearing or speech difficulties. |
 
   The default type is "voice".  These type parameter values can be
-  specified as a parameter list (e.g., TYPE=text;TYPE=voice) or as a
-  value list (e.g., TYPE="text,voice").  The default can be
+  specified as a parameter list (e.g., `TYPE=text;TYPE=voice`) or as a
+  value list (e.g., `TYPE=text,voice`).  The default can be
   overridden to another set of values by specifying one or more
   alternate values.  For example, the default TYPE of "voice" can be
   reset to a VOICE and FAX telephone number by the value list
-  TYPE="voice,fax".
+  `TYPE=voice,fax.`
 
   If this property's value is a URI that can also be used for
   instant messaging, the IMPP ([](#prop-impp)) property SHOULD be
@@ -1731,7 +1731,7 @@ type-param-tel = "text" / "voice" / "fax" / "cell" / "video"
 Example:
 
 ~~~
-  TEL;VALUE=uri;PREF=1;TYPE="voice,home":tel:+1-555-555-5555;ext=5555
+  TEL;VALUE=uri;PREF=1;TYPE=voice,home:tel:+1-555-555-5555;ext=5555
   TEL;VALUE=uri;TYPE=home:tel:+33-01-23-45-67
 ~~~
 
@@ -2921,8 +2921,8 @@ LANG;PREF=2:en
 ORG;TYPE=work:Viagenie
 ADR;TYPE=work:;Suite D2-630;2875 Laurier;
  Quebec;QC;G1V 2M2;Canada
-TEL;VALUE=uri;TYPE="work,voice";PREF=1:tel:+1-418-656-9254;ext=102
-TEL;VALUE=uri;TYPE="work,cell,voice,video,text":tel:+1-418-262-6501
+TEL;VALUE=uri;TYPE=work,voice;PREF=1:tel:+1-418-656-9254;ext=102
+TEL;VALUE=uri;TYPE=work,cell,voice,video,text:tel:+1-418-262-6501
 EMAIL;TYPE=work:simon.perreault@viagenie.ca
 GEO;TYPE=work:geo:46.772673,-71.282945
 KEY;TYPE=work;VALUE=uri:
