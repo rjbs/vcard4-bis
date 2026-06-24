@@ -245,9 +245,6 @@ QSAFE-CHAR = WSP / "!" / %x23-7E / NON-ASCII
 
 SAFE-CHAR = WSP / "!" / %x23-39 / %x3C-7E / NON-ASCII
   ; Any character except CTLs, DQUOTE, ";", ":" but including HTAB
-
-VALUE-CHAR = WSP / VCHAR / NON-ASCII
-  ; Any textual character including HTAB
 ~~~
 
 A line that begins with a white space character is a continuation of
