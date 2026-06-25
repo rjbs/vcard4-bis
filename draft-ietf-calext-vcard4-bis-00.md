@@ -711,6 +711,14 @@ predefined data type values MUST NOT be repeated in COMMA-separated
 value lists except within the N, NICKNAME, ADR, and CATEGORIES
 properties.
 
+Although the VALUE parameter is OPTIONAL, a property defined outside this
+document whose default value type is not "text" SHOULD nonetheless
+include it on each instance, stating the type explicitly.  A consumer
+that does not recognize a property cannot determine its value type from
+the property name alone, and so may mishandle a non-text value -- for
+example, treating a COMMA within a URI value as a value separator.  See
+[](#registering-elements) for the matching registration guidance.
+
 ABNF:
 
 ~~~ abnf
@@ -3151,8 +3159,11 @@ Purpose
 
 Value type
 : Any of the valid value types for the property value
-  needs to be specified.  The default value type also needs to be
-  specified.
+  needs to be specified, together with the default value type.  When the
+  default value type is not "text", the registration SHOULD specify "no
+  default", which makes the VALUE parameter REQUIRED on every instance of
+  the property, so that a consumer that does not recognize the property
+  can still determine its value type.
 
 Cardinality
 : See [](#vcard-properties).
