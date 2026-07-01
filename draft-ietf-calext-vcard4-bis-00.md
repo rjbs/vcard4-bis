@@ -292,7 +292,7 @@ below (date, time, integer, float).  A property whose value is
 structured, such as ADR or ORG, MUST NOT combine multiple instances on a
 single content line; each instance is placed on its own line.
 
-## Property Value Escaping
+## Property Value Escaping {#value-escaping}
 
 Within a property value, certain characters are escaped using a BACKSLASH
 character (U+005C).  A COMMA (U+002C) or a SEMICOLON (U+003B) is escaped by
@@ -2078,15 +2078,19 @@ organizational unit #1 name, and organizational unit #2 name.
         ORG:ABC\, Inc.;North American Division;Marketing
 ~~~
 
-### MEMBER
+### MEMBER {#prop-member}
 
 Purpose
 : To include a member in the group this vCard represents.
 
 Value type
-: A single URI.  It MAY refer to something other than a
-  vCard object.  For example, an email distribution list could
-  employ the "mailto" URI scheme {{?RFC6068}} for efficiency.
+: A single URI value.  It MAY also be reset to free-form text.
+  A URI value MAY refer to something other than a vCard object;
+  for example, an email distribution list could employ the
+  "mailto" URI scheme {{?RFC6068}} for efficiency.  A text value
+  references a member vCard by its UID, and is used when that
+  UID is itself a text value (see [](#prop-uid)), as is common
+  for data originating in vCard 3.0.
 
 Cardinality
 : \*
@@ -2095,12 +2099,26 @@ Special notes
 : This property MUST NOT be present unless the value of
   the KIND property is "group".
 
+  A MEMBER value that identifies another vCard does so by
+  matching that vCard's UID.  A MEMBER value and a UID value
+  identify the same vCard when they are equivalent as described
+  in [](#prop-uid); in particular, a text MEMBER value can
+  reference a vCard whose UID is a text value.
+
 ABNF:
 
 ~~~ abnf
-MEMBER-param = "VALUE=uri" / pid-param / pref-param / altid-param
-             / mediatype-param / any-param
-MEMBER-value = URI
+MEMBER-param = MEMBER-uri-param / MEMBER-text-param
+MEMBER-value = MEMBER-uri-value / MEMBER-text-value
+  ; Value and parameter MUST match.
+
+MEMBER-uri-param = "VALUE=uri" / mediatype-param
+MEMBER-text-param = "VALUE=text"
+
+MEMBER-uri-value = URI
+MEMBER-text-value = text
+
+MEMBER-param =/ pid-param / pref-param / altid-param / any-param
 ~~~
 
 Examples:
@@ -2371,6 +2389,16 @@ Special notes
   that the vCard represents.  The "uuid" URN namespace defined in
   {{!RFC4122}} is particularly well suited to this task, but other URI
   schemes MAY be used.  Free-form text MAY also be used.
+
+  Two identifier values -- each of them either a UID value or a
+  MEMBER value ([](#prop-member)) -- are compared for equivalence as
+  follows.  First, the content of each value is determined: for a
+  text value, this is the value with the escaping described in
+  [](#value-escaping) removed; for a URI value, it is the value exactly
+  as written.  If both values are URI values and both are valid URIs,
+  they are equivalent when they are equivalent under {{!RFC3986}},
+  Section 6.  Otherwise, the two values are equivalent when their
+  content is identical, character for character.
 
 ABNF:
 
@@ -2683,8 +2711,8 @@ synchronization engine.
 ### Matching vCard Instances
 
 vCard instances for which the UID properties ([](#prop-uid)) are
-equivalent MUST be matched.  Equivalence is determined as specified
-in {{!RFC3986}}, Section 6.
+equivalent MUST be matched.  Equivalence of UID values is determined
+as described in [](#prop-uid).
 
 In all other cases, vCard instances MAY be matched at the discretion
 of the synchronization engine.
