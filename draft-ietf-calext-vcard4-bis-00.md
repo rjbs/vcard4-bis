@@ -1576,10 +1576,10 @@ Examples:
 ~~~
   GENDER:M
   GENDER:F
-  GENDER:M;Fellow
-  GENDER:F;grrrl
-  GENDER:O;intersex
-  GENDER:;it's complicated
+  GENDER:M;Transgender Man
+  GENDER:F;Transfeminine
+  GENDER:O;Intersex
+  GENDER:;Agender
 ~~~
 
 ## Delivery Addressing Properties
