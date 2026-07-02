@@ -3,8 +3,8 @@ title: "vCard Format Specification"
 abbrev: vCard
 category: std
 
-obsoletes: 2425, 2426, 4770, 6350
-updates: 2739
+obsoletes: 6350
+updates: 
 docname: draft-ietf-calext-vcard4-bis-00
 submissiontype: IETF
 number:
@@ -91,8 +91,7 @@ This document defines the vCard data format for representing and
 exchanging a variety of information about individuals and other
 entities (e.g., formatted and structured name and delivery addresses,
 email address, multiple telephone numbers, photograph, logo, audio
-clips, etc.).  This document obsoletes RFCs 2425, 2426, and 4770, and
-updates RFC 2739.
+clips, etc.).  This document obsoletes RFC 6350.
 
 --- middle
 
@@ -244,7 +243,8 @@ QSAFE-CHAR = WSP / "!" / %x23-7E / NON-ASCII
   ; Any character except CTLs, DQUOTE but including HTAB
 
 SAFE-CHAR = WSP / "!" / %x23-2B / %x2D-39 / %x3C-7E / NON-ASCII
-  ; Any character except CTLs, DQUOTE, ",", ";", ":" but including HTAB
+  ; Any character except CTLs, DQUOTE, ",", ";", ":" but
+  ; including HTAB
 ~~~
 
 A line that begins with a white space character is a continuation of
