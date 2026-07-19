@@ -2950,6 +2950,32 @@ document.  They are left up to the synchronization engine.  This
 example is merely intended to illustrate the possibility, which
 investigating would be, in the author's opinion, worthwhile.
 
+# Upgrading Considerations
+
+At the time of writing, vCard 3.0, which was obsoleted by vCard 4.0 in 2011, is
+still in widespread use.  There are complications related to upgrading from
+vCard 3.0 to 4.0, and the following is some guidance on how to cope.
+
+First, avoid upgrading to vCard 4.0 unless it is required.  If the card is
+ported to new storage that only supports 4.0, or if information has been added
+to the card that can only be represented in 4.0, then upgrading the card is
+required.
+
+Next, pay special attention to the UID and MEMBER properties across version
+boundaries.  In vCard 3.0, {{?RFC2426}}, the UID property was a text type
+value.  In the initial vCard 4.0 specification, {{?RFC6350}}, UID could be
+either text or URI, but MEMBER was specified as only URI.  This meant that
+there was no way to include a 3.0 card as a member of a 4.0 group.  You may
+want to cope with the strategies sometimes used to deal with this problem.
+
+* This document's solution is to introduce VALUE=TEXT for MEMBER, so that a
+  group may refer to the UID of a vCard 3.0 card unambiguously.
+* Some clients have referred to the text UID of a vCard by prepending
+  `urn:uuid:` to the target card's UID.  When resolving a MEMBER property that
+  begins with that prefix, if no matching UID is found by the specified
+  ([](#prop-uid)) equivalence rules, the target might be found by looking for
+  a card with `urn:uuid:` prefix removed.
+
 # Example: Author's vCard
 
 ~~~
