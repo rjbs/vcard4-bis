@@ -1165,13 +1165,23 @@ Allowable values:
 
 * "high", "medium", "low" when used with HOBBY or INTEREST
 
+Additional values may be registered with IANA (see
+[](#values-registries)).
+
 ABNF:
 
 ~~~ abnf
 level-param = "LEVEL=" level-value
 
-level-value = "beginner" / "average" / "expert" / "high"
-            / "medium" / "low"
+level-value = level-expertise / level-interest / iana-token / x-name
+
+level-expertise = "beginner" / "average" / "expert"
+  ; level-expertise MUST NOT be used with a property other than
+  ; EXPERTISE.
+
+level-interest = "high" / "medium" / "low"
+  ; level-interest MUST NOT be used with a property other than
+  ; HOBBY or INTEREST.
 ~~~
 
 Examples:
