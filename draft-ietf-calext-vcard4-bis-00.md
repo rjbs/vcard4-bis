@@ -1695,11 +1695,14 @@ Cardinality
 ABNF:
 
 ~~~ abnf
-BIRTHPLACE-param = "VALUE=" ("text" / "uri")
+BIRTHPLACE-param = BIRTHPLACE-param-text / BIRTHPLACE-param-uri
 BIRTHPLACE-value = text / URI
   ; Value and parameter MUST match.
 
-BIRTHPLACE-param =/ altid-param / language-param / any-param
+BIRTHPLACE-param-text = "VALUE=text" / language-param
+BIRTHPLACE-param-uri  = "VALUE=uri"
+
+BIRTHPLACE-param =/ altid-param / any-param
 ~~~
 
 Examples:
@@ -1725,11 +1728,14 @@ Cardinality
 ABNF:
 
 ~~~ abnf
-DEATHPLACE-param = "VALUE=" ("text" / "uri")
+DEATHPLACE-param = DEATHPLACE-param-text / DEATHPLACE-param-uri
 DEATHPLACE-value = text / URI
   ; Value and parameter MUST match.
 
-DEATHPLACE-param =/ altid-param / language-param / any-param
+DEATHPLACE-param-text = "VALUE=text" / language-param
+DEATHPLACE-param-uri  = "VALUE=uri"
+
+DEATHPLACE-param =/ altid-param / any-param
 ~~~
 
 Examples:
