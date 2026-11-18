@@ -377,8 +377,9 @@ for escapes.
 
 * the sequence ^' (U+005E, U+0027) is decoded into a DQUOTE (U+0022);
 
-* in the LABEL parameter of ADR, the sequence \n (U+005C, U+006E) is also
-  decoded into a line break; and
+* in the LABEL parameter of ADR, the sequences \n (U+005C, U+006E) and \N
+  (U+005C, U+004E) are also decoded into a line break, as they are in
+  property values; and
 
 * any character that does not begin a recognized escape is copied unchanged.
   Decoding resumes at the next input character, if any.
@@ -3681,4 +3682,5 @@ to {{?RFC6350}}.  It is not exhaustive.
 
 * The LABEL parameter of the ADR property continues to encode line breaks
   as \n, for compatibility with RFC 6350 implementations, but parsers must
-  also accept the ^n encoding of [](#param-escaping).
+  also accept the ^n encoding of [](#param-escaping).  Parsers also accept \N,
+  which RFC 6350 permitted as an alternative to \n.
