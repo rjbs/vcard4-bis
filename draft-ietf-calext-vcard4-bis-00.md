@@ -333,19 +333,22 @@ In all other cases, escaping MUST NOT be used.
 ## Parameter Value Escaping {#param-escaping}
 
 The BACKSLASH escaping described in [](#value-escaping) is not used in
-property parameter values.  Instead, within a parameter value whose syntax is
-given by the "param-value" rule, certain characters are escaped using a
-CIRCUMFLEX ACCENT character (U+005E), "^".  This mechanism was originally
-defined in {{?RFC6868}}.  It applies whether or not the parameter value is
-quoted.
+property parameter values.  This section describes the escaping mechanism
+originally defined in {{?RFC6868}}, which uses the CIRCUMFLEX ACCENT character
+(U+005E), "^", as the escape character.
 
-The parameters defined in this document whose values use "param-value" are
-ALTID, SORT-AS, LABEL, and TZ (when its value is not a quoted URI).  Parameters
-not defined in this document, which match the "any-param" rule, also use
-"param-value".  Other parameters, including GEO and TZ when its value is a
-quoted URI, have their own syntax, and this escaping does not apply to them.
+The parameter's definition determines which grammar applies, including when
+that definition is in an extension.  Caret escaping applies to each value
+element whose grammar uses the "param-value" rule, whether the element is
+quoted or unquoted.  When the generic "any-param" rule applies, it supplies
+"param-value" for each value element.
 
-When generating a parameter value, the following encodings MUST be applied:
+For example, ALTID, SORT-AS, LABEL, and the "param-value" alternative of TZ
+use this escaping.  GEO and the quoted URI alternative of TZ use the URI
+grammar and do not use this escaping.
+
+When generating a "param-value" element, the following encodings MUST be
+applied, subject to the LABEL exception below:
 
 * a line break is encoded as ^n (U+005E, U+006E);
 
@@ -357,7 +360,7 @@ The LABEL parameter of the ADR property ([](#prop-adr)) is an exception:
 for compatibility with {{?RFC6350}}, line breaks in its value SHOULD be
 encoded as \n rather than ^n.
 
-When parsing a parameter value, the following decodings apply:
+When parsing a "param-value" element, the following decodings apply:
 
 * the sequence ^n (U+005E, U+006E) is decoded into a line break, represented
   as appropriate to the system;
@@ -374,15 +377,15 @@ When parsing a parameter value, the following decodings apply:
 Unlike BACKSLASH escaping in property values, this escaping is case-sensitive:
 the sequence ^N is not an escape sequence, and is left in place.
 
-No other characters are escaped in parameter values.  A parameter value
+This mechanism defines no other character escapes.  A parameter value
 containing a COLON, SEMICOLON, or COMMA is quoted instead, as described in
 [](#property-parameters).
 
 When converting between the text format described in this document and an
 alternative representation such as the XML representation of {{RFC6351}},
-implementations MUST ensure that parameter value escape sequences are
-generated correctly in the text format and are decoded when the parameter
-values appear in the alternative representation.
+implementations MUST apply the rules in this section when encoding
+"param-value" elements in the text format and when decoding them for use
+in the alternative representation.
 
 Example: The following GEO property has an "X-ADDRESS" parameter whose value
 includes several line breaks.  The parameter value is quoted because it
