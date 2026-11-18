@@ -5,7 +5,7 @@ category: std
 
 obsoletes: 6350
 updates: 
-docname: draft-ietf-calext-vcard4-bis-00
+docname: draft-ietf-calext-vcard4-bis-01
 submissiontype: IETF
 number:
 date:

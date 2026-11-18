@@ -1,4 +1,4 @@
-DRAFT  = draft-ietf-calext-vcard4-bis-00
+DRAFT  = draft-ietf-calext-vcard4-bis-01
 BUILD  = build/$(DRAFT)
 IMAGE  = vcard4-bis-tools
 
