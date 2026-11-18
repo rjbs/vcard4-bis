@@ -46,7 +46,7 @@ normative:
     seriesinfo:
       "ISO Standard": "8601"
   RFC2045:
-  RFC4288:
+  RFC6838:
   W3C.REC-xml-20081126:
   xfn:
     title: "XFN 1.1 profile"
@@ -913,7 +913,7 @@ ABNF:
 mediatype-param = "MEDIATYPE=" mediatype
 mediatype = type-name "/" subtype-name *( ";" attribute "=" value )
   ; "attribute" and "value" are from [RFC2045]
-  ; "type-name" and "subtype-name" are from [RFC4288]
+  ; "type-name" and "subtype-name" are from [RFC6838]
 ~~~
 
 ## CALSCALE

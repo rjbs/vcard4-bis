@@ -2,10 +2,10 @@ DRAFT  = draft-ietf-calext-vcard4-bis-00
 BUILD  = build/$(DRAFT)
 IMAGE  = vcard4-bis-tools
 
-# RFC 2045 and RFC 4288 are cited only inside ABNF comments, where
+# RFC 2045 and RFC 6838 are cited only inside ABNF comments, where
 # kramdown-rfc can't make a cross-reference, so xml2rfc thinks they're unused.
 SILENCE = --silence 'Unused reference: There seems to be no reference to [RFC2045]' \
-          --silence 'Unused reference: There seems to be no reference to [RFC4288]'
+          --silence 'Unused reference: There seems to be no reference to [RFC6838]'
 
 .PHONY: all xml html txt clean docker-build
 
