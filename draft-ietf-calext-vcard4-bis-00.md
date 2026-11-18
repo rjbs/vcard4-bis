@@ -385,8 +385,8 @@ The following decoding rules apply:
 * a CIRCUMFLEX ACCENT at the end of the element MUST be left in place.
 
 For example, `^^n` decodes to the two literal characters `^n`.  Caret
-escaping is case-sensitive, so `^N` is left in place.  Any case-insensitive
-comparison of parameter values MUST use the decoded values.
+escaping is case-sensitive, so `^N` is left in place.  Any comparison of
+parameter values MUST use the decoded values.
 
 This mechanism defines no other character escapes.  A parameter value
 containing a COLON, SEMICOLON, or COMMA is quoted instead, as described in
