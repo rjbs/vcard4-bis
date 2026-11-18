@@ -353,6 +353,10 @@ When generating a parameter value, the following encodings MUST be applied:
 
 * a DQUOTE (U+0022) is encoded as ^' (U+005E, U+0027).
 
+The LABEL parameter of the ADR property ([](#prop-adr)) is an exception:
+for compatibility with {{?RFC6350}}, line breaks in its value SHOULD be
+encoded as \n rather than ^n.
+
 When parsing a parameter value, the following decodings apply:
 
 * the sequence ^n (U+005E, U+006E) is decoded into a line break, represented
@@ -1658,7 +1662,7 @@ Examples:
 These types are concerned with information related to the delivery
 addressing or label for the vCard object.
 
-### ADR
+### ADR {#prop-adr}
 
 Purpose
 : To specify the components of the delivery address for the
@@ -1707,8 +1711,13 @@ Special notes
 
   The property can also include a "LABEL" parameter to present a
   delivery address label for the address.  Its value is a plain-text
-  string representing the formatted address.  Newlines are encoded
-  as \n, as they are for property values.
+  string representing the formatted address.  For compatibility with
+  implementations of {{?RFC6350}}, which do not recognize the escaping
+  described in [](#param-escaping), generators SHOULD encode line
+  breaks in this parameter as \n, as they are for property values,
+  rather than as ^n.  Parsers MUST decode both \n and ^n in a LABEL
+  value as a line break.  Other characters in the value are escaped
+  as described in [](#param-escaping).
 
 ABNF:
 
@@ -3659,3 +3668,7 @@ to {{?RFC6350}}.  It is not exhaustive.
   parameter values, has been incorporated (see [](#param-escaping)).  This
   document replaces the provisions of RFC 6868 that apply to vCard; its
   provisions for iCalendar are unaffected.
+
+* The LABEL parameter of the ADR property continues to encode line breaks
+  as \n, for compatibility with RFC 6350 implementations, but parsers must
+  also accept the ^n encoding of [](#param-escaping).
