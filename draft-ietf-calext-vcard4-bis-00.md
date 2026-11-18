@@ -216,6 +216,7 @@ name  = "SOURCE" / "KIND" / "FN" / "N" / "NICKNAME"
       / "NOTE" / "PRODID" / "REV" / "SOUND" / "UID" / "CLIENTPIDMAP"
       / "URL" / "KEY" / "FBURL" / "CALADRURI" / "CALURI" / "XML"
       / "BIRTHPLACE" / "DEATHPLACE" / "DEATHDATE"
+      / "EXPERTISE" / "HOBBY" / "INTEREST" / "ORG-DIRECTORY"
       / iana-token / x-name
   ; Parsing of the param and value is based on the "name" as
   ; defined in ABNF sections below.
@@ -231,7 +232,7 @@ x-name = "x-" 1*(ALPHA / DIGIT / "-")
 
 param = language-param / value-param / pref-param / pid-param
       / type-param / geo-parameter / tz-parameter / sort-as-param
-      / calscale-param / any-param
+      / calscale-param / index-param / level-param / any-param
   ; Allowed parameters depend on property name.
 
 param-value = *SAFE-CHAR / ( DQUOTE *QSAFE-CHAR DQUOTE )
@@ -1122,6 +1123,61 @@ ABNF:
 
 ~~~ abnf
 tz-parameter = "TZ=" (param-value / DQUOTE URI DQUOTE)
+~~~
+
+## INDEX {#param-index}
+
+The INDEX parameter is used in a multi-valued property to indicate the
+position of this value within the set of values.
+
+When a property is multi-valued, INDEX can be used to indicate an
+ordering or sequence of the values.  INDEX values must be strictly
+positive.  Zero is not allowed.
+
+ABNF:
+
+~~~ abnf
+index-param = "INDEX=" index-value
+
+index-value = integer
+~~~
+
+Examples:
+
+~~~
+  ORG-URI;INDEX=1:http://mycompany.example1.com
+
+  ORG-URI;PREF=1;INDEX=2:http://mycompany.example2.com
+~~~
+
+## LEVEL {#param-level}
+
+The LEVEL parameter is used to indicate a level of expertise, hobby,
+or interest attained by the object the vCard represents.
+
+Allowable values:
+
+* "beginner", "average", "expert" when used with EXPERTISE
+
+* "high", "medium", "low" when used with HOBBY or INTEREST
+
+ABNF:
+
+~~~ abnf
+level-param = "LEVEL=" level-value
+
+level-value = "beginner" / "average" / "expert" / "high"
+            / "medium" / "low"
+~~~
+
+Examples:
+
+~~~
+  EXPERTISE;LEVEL=beginner:chinese literature
+
+  HOBBY;LEVEL=high:reading
+
+  INTEREST;LEVEL=medium:r&b music
 ~~~
 
 # vCard Properties {#vcard-properties}
@@ -2430,6 +2486,51 @@ RELATED;TYPE=co-worker;VALUE=text:Please contact my assistant Jane
  Doe for any inquiries.
 ~~~
 
+### ORG-DIRECTORY {#prop-org-directory}
+
+Purpose
+: To specify a directory of an organization to which the
+  vCard's entity belongs.
+
+Value type
+: A single URI value.
+
+Cardinality
+: \*
+
+Special notes
+: This is intended to be a URI that can be used to do an
+  organization-directory lookup.  Presumably, the entity the vCard
+  represents would be found in the directory, though that isn't
+  required.  This might be used to make it easier to find someone's
+  coworkers, management chain, and so on, in a company or
+  organizational directory.
+
+  How the lookup is done depends upon the URI scheme, and no attempt
+  is made here to specify details of the lookup mechanism.  An HTTP
+  URI might, for example, lead to a web form that's intended for
+  manual lookup in a browser; thus, this URI might or might not be
+  usable for automated lookup or searching.
+
+ABNF:
+
+~~~ abnf
+ORG-DIRECTORY-param = pref-param / index-param / language-param
+                    / pid-param / pref-param / altid-param
+                    / type-param / any-param
+
+ORG-DIRECTORY-value = URI
+~~~
+
+Examples:
+
+~~~
+  ORG-DIRECTORY;INDEX=1:http://directory.mycompany.example.com
+
+  ORG-DIRECTORY;PREF=1:ldap://ldap.tech.example/
+  o=Example%20Tech,ou=Engineering
+~~~
+
 ## Explanatory Properties
 
 These properties are concerned with additional explanations, such as
@@ -2897,6 +2998,145 @@ Examples:
 ~~~
   CALURI;PREF=1:http://cal.example.com/calA
   CALURI;MEDIATYPE=text/calendar:ftp://ftp.example.com/calA.ics
+~~~
+
+## Personal Information Properties {#personal-info-properties}
+
+These properties are concerned with the interests and abilities of the
+object the vCard represents.
+
+Some of these properties are text values for which no specific list of
+allowed strings is specified.  For those properties, it is intended
+that de facto taxonomies might develop.  One vCard can, for example,
+specify a hobby of "philately", while another uses "stamp collecting",
+and a third has "old postage stamps".  Usage, not specification, may
+lead to a preference over time for a single term.  In general, these
+are meant to be understood by humans, rather than to be used for
+automated categorization that might require standard terms and
+registries.
+
+### EXPERTISE
+
+Purpose
+: To specify a field of expertise for the object to which the
+  vCard refers.
+
+Value type
+: A single text value.
+
+Cardinality
+: \*
+
+Special notes
+: This is intended to be a free-form naming of fields of
+  expertise, meant for human consumption, and no specific expertise
+  fields are defined.  See the note at the beginning of
+  [](#personal-info-properties).
+
+ABNF:
+
+~~~ abnf
+EXPERTISE-param = level-param / index-param / language-param
+                / pref-param / altid-param / type-param
+                / any-param
+
+EXPERTISE-value = text
+~~~
+
+Examples:
+
+~~~
+  EXPERTISE;LEVEL=beginner;INDEX=2:chinese literature
+
+  EXPERTISE;INDEX=1;LEVEL=expert:chemistry
+~~~
+
+### HOBBY {#prop-hobby}
+
+Purpose
+: To specify the hobbies of the object to which the vCard
+  refers.
+
+Value type
+: A single text value.
+
+Cardinality
+: \*
+
+Special notes
+: This is intended to be a free-form naming of hobbies, meant
+  for human consumption, and no specific hobbies are defined.  See the
+  note at the beginning of [](#personal-info-properties).
+
+  A hobby, as opposed to an interest (see [](#prop-interest)), is an
+  activity that one actively engages in for entertainment,
+  intellectual stimulation, creative expression, or the like.
+
+  * "Art" might be a hobby if one actively sculpts or paints.
+
+  * "Tennis" might be a hobby if one enjoys playing, rather than just
+    watching, matches.
+
+ABNF:
+
+~~~ abnf
+HOBBY-param = level-param / index-param / language-param
+            / pref-param / altid-param / type-param / any-param
+
+HOBBY-value = text
+~~~
+
+Examples:
+
+~~~
+  HOBBY;INDEX=1;LEVEL=high:reading
+
+  HOBBY;INDEX=2;LEVEL=high:sewing
+~~~
+
+### INTEREST {#prop-interest}
+
+Purpose
+: To specify the interest(s) of the object to which the vCard
+  refers.
+
+Value type
+: A single text value.
+
+Cardinality
+: \*
+
+Special notes
+: This is intended to be a free-form naming of interests, meant
+  for human consumption, and no specific interests are defined.  See
+  the note at the beginning of [](#personal-info-properties).
+
+  An interest, as opposed to a hobby (see [](#prop-hobby)), is an
+  activity or topic that one finds interesting but doesn't necessarily
+  actively engage in.
+
+  * "Art" might be an interest if one likes looking at art but
+    doesn't create art.
+
+  * "Tennis" might be an interest if one enjoys watching matches but
+    doesn't play.
+
+ABNF:
+
+~~~ abnf
+INTEREST-param = level-param / index-param / language-param
+               / pref-param / altid-param / type-param
+               / any-param
+
+INTEREST-value = text
+~~~
+
+Examples:
+
+~~~
+  INTEREST;INDEX=1;LEVEL=medium:r&b music
+
+  INTEREST;INDEX=2;LEVEL=high:rock 'n' roll music
 ~~~
 
 ## Extended Properties and Parameters
@@ -3810,6 +4050,10 @@ to {{?RFC6350}}.  It is not exhaustive.
 * The BIRTHPLACE, DEATHPLACE, and DEATHDATE properties, defined in
   {{?RFC6474}}, have been incorporated.  The LANGUAGE parameter is now
   limited to text values on BIRTHPLACE and DEATHPLACE.
+
+* The EXPERTISE, HOBBY, INTEREST, and ORG-DIRECTORY properties and the
+  INDEX and LEVEL parameters, defined in {{?RFC6715}}, have been
+  incorporated.
 
 ## Other Changes
 
