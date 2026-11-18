@@ -1692,6 +1692,10 @@ Value type
 Cardinality
 : \*1
 
+Special notes
+: The LANGUAGE parameter ([](#param-language)) MUST NOT be present unless
+  the value is of type "text".
+
 ABNF:
 
 ~~~ abnf
@@ -1724,6 +1728,10 @@ Value type
 
 Cardinality
 : \*1
+
+Special notes
+: The LANGUAGE parameter ([](#param-language)) MUST NOT be present unless
+  the value is of type "text".
 
 ABNF:
 
@@ -1763,6 +1771,9 @@ Special notes
 : The presence of a DEATHDATE property indicates that the
   subject of the vCard is known to be dead.  The absence of this
   property makes no statement one way or the other.
+
+  The LANGUAGE parameter ([](#param-language)) MUST NOT be present unless
+  the value is of type "text".
 
 ABNF:
 
@@ -3802,4 +3813,5 @@ to {{?RFC6350}}.  It is not exhaustive.
   which RFC 6350 permitted as an alternative to \n.
 
 * The BIRTHPLACE, DEATHPLACE, and DEATHDATE properties, defined in
-  {{?RFC6474}}, have been incorporated.
+  {{?RFC6474}}, have been incorporated.  The LANGUAGE parameter is now
+  limited to text values on BIRTHPLACE and DEATHPLACE.
