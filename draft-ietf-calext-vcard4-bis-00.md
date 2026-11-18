@@ -2519,9 +2519,9 @@ Special notes
 ABNF:
 
 ~~~ abnf
-ORG-DIRECTORY-param = pref-param / index-param / language-param
-                    / pid-param / pref-param / altid-param
-                    / type-param / any-param
+ORG-DIRECTORY-param = "VALUE=uri" / pref-param / index-param
+                    / pid-param / altid-param / type-param
+                    / any-param
 
 ORG-DIRECTORY-value = URI
 ~~~
