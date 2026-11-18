@@ -105,7 +105,8 @@ information normally stored within an address book or directory
 application.
 
 A high-level overview of the differences from RFCs 2425 and 2426 can
-be found in Appendix A.
+be found in [](#changes-from-2426).  A summary of the changes from
+{{?RFC6350}} can be found in [](#changes-from-6350).
 
 # Conventions
 
@@ -328,6 +329,74 @@ unambiguously; the semicolon is not escaped, and each field is
 interpreted according to its own type.
 
 In all other cases, escaping MUST NOT be used.
+
+## Parameter Value Escaping {#param-escaping}
+
+The BACKSLASH escaping described in [](#value-escaping) is not used in
+property parameter values.  Instead, within a parameter value whose syntax is
+given by the "param-value" rule, certain characters are escaped using a
+CIRCUMFLEX ACCENT character (U+005E), "^".  This mechanism was originally
+defined in {{?RFC6868}}.  It applies whether or not the parameter value is
+quoted.
+
+The parameters defined in this document whose values use "param-value" are
+ALTID, SORT-AS, LABEL, and TZ (when its value is not a quoted URI).  Parameters
+not defined in this document, which match the "any-param" rule, also use
+"param-value".  Other parameters, including GEO and TZ when its value is a
+quoted URI, have their own syntax, and this escaping does not apply to them.
+
+When generating a parameter value, the following encodings MUST be applied:
+
+* a line break is encoded as ^n (U+005E, U+006E);
+
+* a CIRCUMFLEX ACCENT (U+005E) is encoded as ^^ (U+005E, U+005E); and
+
+* a DQUOTE (U+0022) is encoded as ^' (U+005E, U+0027).
+
+When parsing a parameter value, the following decodings apply:
+
+* the sequence ^n (U+005E, U+006E) is decoded into a line break, represented
+  as appropriate to the system;
+
+* the sequence ^^ (U+005E, U+005E) is decoded into a CIRCUMFLEX ACCENT
+  (U+005E);
+
+* the sequence ^' (U+005E, U+0027) is decoded into a DQUOTE (U+0022); and
+
+* if a CIRCUMFLEX ACCENT is followed by any character other than those above,
+  parsers MUST leave both the CIRCUMFLEX ACCENT and the following character in
+  place.
+
+Unlike BACKSLASH escaping in property values, this escaping is case-sensitive:
+the sequence ^N is not an escape sequence, and is left in place.
+
+No other characters are escaped in parameter values.  A parameter value
+containing a COLON, SEMICOLON, or COMMA is quoted instead, as described in
+[](#property-parameters).
+
+When converting between the text format described in this document and an
+alternative representation such as the XML representation of {{RFC6351}},
+implementations MUST ensure that parameter value escape sequences are
+generated correctly in the text format and are decoded when the parameter
+values appear in the alternative representation.
+
+Example: The following GEO property has an "X-ADDRESS" parameter whose value
+includes several line breaks.  The parameter value is quoted because it
+contains a COMMA.
+
+~~~
+GEO;X-ADDRESS="Pittsburgh Pirates^n115 Federal St^nPitt
+ sburgh, PA 15212":geo:40.446816,-80.00566
+~~~
+
+The unescaped parameter value, where each line is terminated by a line
+break, is:
+
+~~~
+Pittsburgh Pirates
+115 Federal St
+Pittsburgh, PA 15212
+~~~
 
 # Property Value Data Types
 
@@ -661,7 +730,7 @@ MUST be used.
 
 "language-tag": A single language tag, as defined in {{!RFC5646}}.
 
-# Property Parameters
+# Property Parameters {#property-parameters}
 
 A property can have attributes associated with it.  These "property
 parameters" contain meta-information about the property or the
@@ -671,10 +740,12 @@ separated by a COMMA (U+002C).
 
 Property parameter value elements that contain the COLON (U+003A),
 SEMICOLON (U+003B), or COMMA (U+002C) character separators MUST be
-specified as quoted-string text values.  Property parameter values
-MUST NOT contain the DQUOTE (U+0022) character.  The DQUOTE character
+specified as quoted-string text values.  The DQUOTE (U+0022) character
 is used as a delimiter for parameter values that contain restricted
-characters or URI text.
+characters or URI text, and so MUST NOT appear literally within a
+parameter value.  Where a parameter's value is defined using the
+"param-value" rule, a DQUOTE or a line break can be represented using
+the escaping described in [](#param-escaping).
 
 Applications MUST ignore x-param and iana-param values they don't
 recognize.
@@ -3497,7 +3568,7 @@ Bortzmeyer, Tantek Celik, and Zoltan Ordogh.
 
 --- back
 
-# Differences from RFCs 2425 and 2426
+# Differences from RFCs 2425 and 2426 {#changes-from-2426}
 
 This appendix contains a high-level overview of the major changes
 that have been made in the vCard specification from RFCs 2425 and
@@ -3575,3 +3646,16 @@ to
 
 * The value type for the GEO property has changed from a structured value of
   the form: float ";" float to a URI.
+
+# Changes from RFC 6350 {#changes-from-6350}
+
+This appendix summarizes the major changes made in this document relative
+to {{?RFC6350}}.  It is not exhaustive.
+
+## Incorporated Extensions
+
+* The parameter value escaping mechanism of {{?RFC6868}}, which uses the
+  CIRCUMFLEX ACCENT character to encode line breaks and DQUOTE characters in
+  parameter values, has been incorporated (see [](#param-escaping)).  This
+  document replaces the provisions of RFC 6868 that apply to vCard; its
+  provisions for iCalendar are unaffected.
