@@ -215,6 +215,7 @@ name  = "SOURCE" / "KIND" / "FN" / "N" / "NICKNAME"
       / "LOGO" / "ORG" / "MEMBER" / "RELATED" / "CATEGORIES"
       / "NOTE" / "PRODID" / "REV" / "SOUND" / "UID" / "CLIENTPIDMAP"
       / "URL" / "KEY" / "FBURL" / "CALADRURI" / "CALURI" / "XML"
+      / "BIRTHPLACE" / "DEATHPLACE" / "DEATHDATE"
       / iana-token / x-name
   ; Parsing of the param and value is based on the "name" as
   ; defined in ABNF sections below.
@@ -1677,6 +1678,109 @@ Examples:
   GENDER:F;Transfeminine
   GENDER:O;Intersex
   GENDER:;Agender
+~~~
+
+### BIRTHPLACE
+
+Purpose
+: To specify the place of birth of the object the vCard
+  represents.
+
+Value type
+: A single text value (default) or a single URI value.
+
+Cardinality
+: \*1
+
+ABNF:
+
+~~~ abnf
+BIRTHPLACE-param = "VALUE=" ("text" / "uri")
+BIRTHPLACE-value = text / URI
+  ; Value and parameter MUST match.
+
+BIRTHPLACE-param =/ altid-param / language-param / any-param
+~~~
+
+Examples:
+
+~~~
+  BIRTHPLACE:Babies'R'Us Hospital
+  BIRTHPLACE;VALUE=uri:http://example.com/hospitals/babiesrus.vcf
+  BIRTHPLACE;VALUE=uri:geo:46.769307,-71.283079
+~~~
+
+### DEATHPLACE
+
+Purpose
+: To specify the place of death of the object the vCard
+  represents.
+
+Value type
+: A single text value (default) or a single URI value.
+
+Cardinality
+: \*1
+
+ABNF:
+
+~~~ abnf
+DEATHPLACE-param = "VALUE=" ("text" / "uri")
+DEATHPLACE-value = text / URI
+  ; Value and parameter MUST match.
+
+DEATHPLACE-param =/ altid-param / language-param / any-param
+~~~
+
+Examples:
+
+~~~
+  DEATHPLACE:Aboard the Titanic\, near Newfoundland
+  DEATHPLACE;VALUE=uri:http://example.com/ships/titanic.vcf
+  DEATHPLACE;VALUE=uri:geo:41.731944,-49.945833
+~~~
+
+### DEATHDATE
+
+Purpose
+: To specify the date of death of the object the vCard
+  represents.
+
+Value type
+: The default is a single date-and-or-time value.  It can
+  also be reset to a single text value.
+
+Cardinality
+: \*1
+
+Special notes
+: The presence of a DEATHDATE property indicates that the
+  subject of the vCard is known to be dead.  The absence of this
+  property makes no statement one way or the other.
+
+ABNF:
+
+~~~ abnf
+DEATHDATE-param = DEATHDATE-param-date / DEATHDATE-param-text
+DEATHDATE-value = date-and-or-time / text
+  ; Value and parameter MUST match.
+
+DEATHDATE-param-date = "VALUE=date-and-or-time" / calscale-param
+  ; calscale-param can only be present when DEATHDATE-value is
+  ; date-and-or-time and actually contains a date or date-time.
+
+DEATHDATE-param-date = "VALUE=text" / language-param
+
+DEATHDATE-param =/ altid-param / any-param
+~~~
+
+Examples:
+
+~~~
+  DEATHDATE:19960415
+  DEATHDATE:--0415
+  DEATHDATE;19531015T231000Z
+  DEATHDATE;VALUE=text:circa 1800
 ~~~
 
 ## Delivery Addressing Properties
@@ -3691,3 +3795,6 @@ to {{?RFC6350}}.  It is not exhaustive.
   as \n, for compatibility with RFC 6350 implementations, but parsers must
   also accept the ^n encoding of [](#param-escaping).  Parsers also accept \N,
   which RFC 6350 permitted as an alternative to \n.
+
+* The BIRTHPLACE, DEATHPLACE, and DEATHDATE properties, defined in
+  {{?RFC6474}}, have been incorporated.
