@@ -2965,16 +2965,20 @@ Next, pay special attention to the UID and MEMBER properties across version
 boundaries.  In vCard 3.0, {{?RFC2426}}, the UID property was a text type
 value.  In the initial vCard 4.0 specification, {{?RFC6350}}, UID could be
 either text or URI, but MEMBER was specified as only URI.  This meant that
-there was no way to include a 3.0 card as a member of a 4.0 group.  You may
-want to cope with the strategies sometimes used to deal with this problem.
+there was no way to include a 3.0 card as a member of a 4.0 group.
 
-* This document's solution is to introduce VALUE=TEXT for MEMBER, so that a
-  group may refer to the UID of a vCard 3.0 card unambiguously.
-* Some clients have referred to the text UID of a vCard by prepending
-  `urn:uuid:` to the target card's UID.  When resolving a MEMBER property that
-  begins with that prefix, if no matching UID is found by the specified
-  ([](#prop-uid)) equivalence rules, the target might be found by looking for
-  a card with `urn:uuid:` prefix removed.
+This document's solution is to introduce VALUE=TEXT for MEMBER, so that a group
+may refer to the UID of a vCard 3.0 card unambiguously.
+
+Some existing vCard implementations already behaved this way, putting the
+literal, text UID of a card into MEMBER, either with or without setting an
+explicit VALUE parameter on the MEMBER property.
+
+Other implementations would form a URI value for MEMBER by prepending
+`urn:uuid:` to the target card's UID, whether or not the card's UID was a valid
+UUID.  When resolving a MEMBER property that begins with that prefix, if no
+matching UID is found by the specified ([](#prop-uid)) equivalence rules, the
+target might be found by looking for a card with `urn:uuid:` prefix removed.
 
 # Example: Author's vCard
 
