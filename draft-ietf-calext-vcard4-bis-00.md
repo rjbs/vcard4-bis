@@ -1134,6 +1134,10 @@ When a property is multi-valued, INDEX can be used to indicate an
 ordering or sequence of the values.  INDEX values must be strictly
 positive.  Zero is not allowed.
 
+If an instance of a multi-valued property does not have an INDEX value,
+then it is included at the end of the ordered sequence, as if it had a
+very high INDEX value.
+
 ABNF:
 
 ~~~ abnf
