@@ -1765,13 +1765,12 @@ DEATHDATE-param = DEATHDATE-param-date / DEATHDATE-param-text
 DEATHDATE-value = date-and-or-time / text
   ; Value and parameter MUST match.
 
-DEATHDATE-param-date = "VALUE=date-and-or-time" / calscale-param
+DEATHDATE-param-date = "VALUE=date-and-or-time"
+DEATHDATE-param-text = "VALUE=text" / language-param
+
+DEATHDATE-param =/ altid-param / calscale-param / any-param
   ; calscale-param can only be present when DEATHDATE-value is
   ; date-and-or-time and actually contains a date or date-time.
-
-DEATHDATE-param-date = "VALUE=text" / language-param
-
-DEATHDATE-param =/ altid-param / any-param
 ~~~
 
 Examples:
