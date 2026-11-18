@@ -46,7 +46,7 @@ normative:
     seriesinfo:
       "ISO Standard": "8601"
   RFC2045:
-  RFC4288:
+  RFC6838:
   W3C.REC-xml-20081126:
   xfn:
     title: "XFN 1.1 profile"
@@ -105,7 +105,8 @@ information normally stored within an address book or directory
 application.
 
 A high-level overview of the differences from RFCs 2425 and 2426 can
-be found in Appendix A.
+be found in [](#changes-from-2426).  A summary of the changes from
+{{?RFC6350}} can be found in [](#changes-from-6350).
 
 # Conventions
 
@@ -328,6 +329,93 @@ unambiguously; the semicolon is not escaped, and each field is
 interpreted according to its own type.
 
 In all other cases, escaping MUST NOT be used.
+
+## Parameter Value Escaping {#param-escaping}
+
+Except for LABEL line breaks as described below, the BACKSLASH escaping
+described in [](#value-escaping) is not used in property parameter values.
+This section describes the escaping mechanism originally defined in
+{{?RFC6868}}, which uses the CIRCUMFLEX ACCENT character (U+005E), "^",
+as the escape character.
+
+The parameter's definition determines which grammar applies, including when
+that definition is in an extension.  Caret escaping applies to each value
+element whose grammar uses the "param-value" rule, whether the element is
+quoted or unquoted.  When the generic "any-param" rule applies, it supplies
+"param-value" for each value element.
+
+For example, ALTID, SORT-AS, LABEL, and the "param-value" alternative of TZ
+use this escaping.  GEO and the quoted URI alternative of TZ use the URI
+grammar and do not use this escaping.
+
+When generating a "param-value" element, the following encodings MUST be
+applied, subject to the LABEL exception below:
+
+* a line break is encoded as ^n (U+005E, U+006E);
+
+* a CIRCUMFLEX ACCENT (U+005E) is encoded as ^^ (U+005E, U+005E); and
+
+* a DQUOTE (U+0022) is encoded as ^' (U+005E, U+0027).
+
+The LABEL parameter of the ADR property ([](#prop-adr)) is an exception:
+for compatibility with {{?RFC6350}}, line breaks in its value SHOULD be
+encoded as \n rather than ^n.
+
+Before decoding escapes, parsers MUST unfold the content line as
+described in [](#line-folding), identify the individual parameter value
+elements, and remove any enclosing DQUOTE delimiters.  Parsers MUST apply
+the following rules to each "param-value" element in a single pass from
+left to right.  Each recognized escape consumes both of its input
+characters.  Characters produced by decoding MUST NOT be scanned again
+for escapes.
+
+* the sequence ^n (U+005E, U+006E) is decoded into a line break, represented
+  as appropriate to the system;
+
+* the sequence ^^ (U+005E, U+005E) is decoded into a CIRCUMFLEX ACCENT
+  (U+005E);
+
+* the sequence ^' (U+005E, U+0027) is decoded into a DQUOTE (U+0022);
+
+* in the LABEL parameter of ADR, the sequences \n (U+005C, U+006E) and \N
+  (U+005C, U+004E) are also decoded into a line break, as they are in
+  property values; and
+
+* any character that does not begin a recognized escape is copied unchanged.
+  Decoding resumes at the next input character, if any.
+
+For example, `^^n` decodes to the two literal characters `^n`.  Caret
+escaping is case-sensitive, so `^N` is left in place.  In LABEL, `^\n`
+decodes to a literal caret followed by a line break.  Any comparison of
+parameter values MUST use the decoded values.
+
+This mechanism defines no other character escapes.  A parameter value
+containing a COLON, SEMICOLON, or COMMA is quoted instead, as described in
+[](#property-parameters).
+
+When converting between the text format described in this document and an
+alternative representation such as the XML representation of {{RFC6351}},
+implementations MUST apply the rules in this section when encoding
+"param-value" elements in the text format and when decoding them for use
+in the alternative representation.
+
+Example: The following GEO property has an "X-ADDRESS" parameter whose value
+includes several line breaks.  The parameter value is quoted because it
+contains a COMMA.
+
+~~~
+GEO;X-ADDRESS="Pittsburgh Pirates^n115 Federal St^nPitt
+ sburgh, PA 15212":geo:40.446816,-80.00566
+~~~
+
+The unescaped parameter value, where each line is terminated by a line
+break, is:
+
+~~~
+Pittsburgh Pirates
+115 Federal St
+Pittsburgh, PA 15212
+~~~
 
 # Property Value Data Types
 
@@ -661,7 +749,7 @@ MUST be used.
 
 "language-tag": A single language tag, as defined in {{!RFC5646}}.
 
-# Property Parameters
+# Property Parameters {#property-parameters}
 
 A property can have attributes associated with it.  These "property
 parameters" contain meta-information about the property or the
@@ -671,10 +759,12 @@ separated by a COMMA (U+002C).
 
 Property parameter value elements that contain the COLON (U+003A),
 SEMICOLON (U+003B), or COMMA (U+002C) character separators MUST be
-specified as quoted-string text values.  Property parameter values
-MUST NOT contain the DQUOTE (U+0022) character.  The DQUOTE character
+specified as quoted-string text values.  The DQUOTE (U+0022) character
 is used as a delimiter for parameter values that contain restricted
-characters or URI text.
+characters or URI text, and so MUST NOT appear literally within a
+parameter value.  Where a parameter's value is defined using the
+"param-value" rule, a DQUOTE or a line break can be represented using
+the escaping described in [](#param-escaping).
 
 Applications MUST ignore x-param and iana-param values they don't
 recognize.
@@ -913,7 +1003,7 @@ ABNF:
 mediatype-param = "MEDIATYPE=" mediatype
 mediatype = type-name "/" subtype-name *( ";" attribute "=" value )
   ; "attribute" and "value" are from [RFC2045]
-  ; "type-name" and "subtype-name" are from [RFC4288]
+  ; "type-name" and "subtype-name" are from [RFC6838]
 ~~~
 
 ## CALSCALE
@@ -1587,7 +1677,7 @@ Examples:
 These types are concerned with information related to the delivery
 addressing or label for the vCard object.
 
-### ADR
+### ADR {#prop-adr}
 
 Purpose
 : To specify the components of the delivery address for the
@@ -1636,8 +1726,9 @@ Special notes
 
   The property can also include a "LABEL" parameter to present a
   delivery address label for the address.  Its value is a plain-text
-  string representing the formatted address.  Newlines are encoded
-  as \n, as they are for property values.
+  string representing the formatted address.  The escaping rules for
+  this parameter, including the compatibility rules for line breaks,
+  are described in [](#param-escaping).
 
 ABNF:
 
@@ -3497,7 +3588,7 @@ Bortzmeyer, Tantek Celik, and Zoltan Ordogh.
 
 --- back
 
-# Differences from RFCs 2425 and 2426
+# Differences from RFCs 2425 and 2426 {#changes-from-2426}
 
 This appendix contains a high-level overview of the major changes
 that have been made in the vCard specification from RFCs 2425 and
@@ -3575,3 +3666,21 @@ to
 
 * The value type for the GEO property has changed from a structured value of
   the form: float ";" float to a URI.
+
+# Changes from RFC 6350 {#changes-from-6350}
+
+This appendix summarizes the major changes made in this document relative
+to {{?RFC6350}}.  It is not exhaustive.
+
+## Incorporated Extensions
+
+* The parameter value escaping mechanism of {{?RFC6868}}, which uses the
+  CIRCUMFLEX ACCENT character to encode line breaks and DQUOTE characters in
+  parameter values, has been incorporated (see [](#param-escaping)).  This
+  document replaces the provisions of RFC 6868 that apply to vCard; its
+  provisions for iCalendar are unaffected.
+
+* The LABEL parameter of the ADR property continues to encode line breaks
+  as \n, for compatibility with RFC 6350 implementations, but parsers must
+  also accept the ^n encoding of [](#param-escaping).  Parsers also accept \N,
+  which RFC 6350 permitted as an alternative to \n.
