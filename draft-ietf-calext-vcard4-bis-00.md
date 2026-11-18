@@ -2994,11 +2994,11 @@ END:VCARD
   no inherent authentication or confidentiality provisions, they can
   easily be carried by any security mechanism that transfers MIME
   objects to address authentication or confidentiality (e.g., S/MIME
-  {{?RFC5751}}, OpenPGP {{?RFC4880}}).  In cases where the confidentiality
+  {{?ID.ietf-lamps-rfc8551bis}}, OpenPGP {{?RFC9850}}).  In cases where the confidentiality
   or authenticity of information contained in vCard is a concern,
   the vCard SHOULD be transported using one of these secure
   mechanisms.  The KEY property ([](#prop-key)) can be used to
-  transport the public key used by these mechanisms.
+  transport the public key or certificate used by these mechanisms.
 
 * The information in a vCard may become out of date.  In cases where
   the vitality of data is important to an originator of a vCard, the
