@@ -360,7 +360,15 @@ The LABEL parameter of the ADR property ([](#prop-adr)) is an exception:
 for compatibility with {{?RFC6350}}, line breaks in its value SHOULD be
 encoded as \n rather than ^n.
 
-When parsing a "param-value" element, the following decodings apply:
+Before decoding caret escapes, parsers MUST unfold the content line as
+described in [](#line-folding), identify the individual parameter value
+elements, and remove any enclosing DQUOTE delimiters.  Parsers MUST
+process caret escapes in each "param-value" element in a single pass
+from left to right.  Each recognized caret escape consumes both of its
+input characters.  Characters produced by decoding MUST NOT be scanned
+again for caret escapes.
+
+The following decoding rules apply:
 
 * the sequence ^n (U+005E, U+006E) is decoded into a line break, represented
   as appropriate to the system;
@@ -368,14 +376,17 @@ When parsing a "param-value" element, the following decodings apply:
 * the sequence ^^ (U+005E, U+005E) is decoded into a CIRCUMFLEX ACCENT
   (U+005E);
 
-* the sequence ^' (U+005E, U+0027) is decoded into a DQUOTE (U+0022); and
+* the sequence ^' (U+005E, U+0027) is decoded into a DQUOTE (U+0022);
 
 * if a CIRCUMFLEX ACCENT is followed by any character other than those above,
   parsers MUST leave both the CIRCUMFLEX ACCENT and the following character in
-  place.
+  place; and
 
-Unlike BACKSLASH escaping in property values, this escaping is case-sensitive:
-the sequence ^N is not an escape sequence, and is left in place.
+* a CIRCUMFLEX ACCENT at the end of the element MUST be left in place.
+
+For example, `^^n` decodes to the two literal characters `^n`.  Caret
+escaping is case-sensitive, so `^N` is left in place.  Any case-insensitive
+comparison of parameter values MUST use the decoded values.
 
 This mechanism defines no other character escapes.  A parameter value
 containing a COLON, SEMICOLON, or COMMA is quoted instead, as described in
