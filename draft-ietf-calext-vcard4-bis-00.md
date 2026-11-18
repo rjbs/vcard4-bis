@@ -332,10 +332,11 @@ In all other cases, escaping MUST NOT be used.
 
 ## Parameter Value Escaping {#param-escaping}
 
-The BACKSLASH escaping described in [](#value-escaping) is not used in
-property parameter values.  This section describes the escaping mechanism
-originally defined in {{?RFC6868}}, which uses the CIRCUMFLEX ACCENT character
-(U+005E), "^", as the escape character.
+Except for LABEL line breaks as described below, the BACKSLASH escaping
+described in [](#value-escaping) is not used in property parameter values.
+This section describes the escaping mechanism originally defined in
+{{?RFC6868}}, which uses the CIRCUMFLEX ACCENT character (U+005E), "^",
+as the escape character.
 
 The parameter's definition determines which grammar applies, including when
 that definition is in an extension.  Caret escaping applies to each value
@@ -360,15 +361,13 @@ The LABEL parameter of the ADR property ([](#prop-adr)) is an exception:
 for compatibility with {{?RFC6350}}, line breaks in its value SHOULD be
 encoded as \n rather than ^n.
 
-Before decoding caret escapes, parsers MUST unfold the content line as
+Before decoding escapes, parsers MUST unfold the content line as
 described in [](#line-folding), identify the individual parameter value
-elements, and remove any enclosing DQUOTE delimiters.  Parsers MUST
-process caret escapes in each "param-value" element in a single pass
-from left to right.  Each recognized caret escape consumes both of its
-input characters.  Characters produced by decoding MUST NOT be scanned
-again for caret escapes.
-
-The following decoding rules apply:
+elements, and remove any enclosing DQUOTE delimiters.  Parsers MUST apply
+the following rules to each "param-value" element in a single pass from
+left to right.  Each recognized escape consumes both of its input
+characters.  Characters produced by decoding MUST NOT be scanned again
+for escapes.
 
 * the sequence ^n (U+005E, U+006E) is decoded into a line break, represented
   as appropriate to the system;
@@ -378,14 +377,15 @@ The following decoding rules apply:
 
 * the sequence ^' (U+005E, U+0027) is decoded into a DQUOTE (U+0022);
 
-* if a CIRCUMFLEX ACCENT is followed by any character other than those above,
-  parsers MUST leave both the CIRCUMFLEX ACCENT and the following character in
-  place; and
+* in the LABEL parameter of ADR, the sequence \n (U+005C, U+006E) is also
+  decoded into a line break; and
 
-* a CIRCUMFLEX ACCENT at the end of the element MUST be left in place.
+* any character that does not begin a recognized escape is copied unchanged.
+  Decoding resumes at the next input character, if any.
 
 For example, `^^n` decodes to the two literal characters `^n`.  Caret
-escaping is case-sensitive, so `^N` is left in place.  Any comparison of
+escaping is case-sensitive, so `^N` is left in place.  In LABEL, `^\n`
+decodes to a literal caret followed by a line break.  Any comparison of
 parameter values MUST use the decoded values.
 
 This mechanism defines no other character escapes.  A parameter value
@@ -1725,13 +1725,9 @@ Special notes
 
   The property can also include a "LABEL" parameter to present a
   delivery address label for the address.  Its value is a plain-text
-  string representing the formatted address.  For compatibility with
-  implementations of {{?RFC6350}}, which do not recognize the escaping
-  described in [](#param-escaping), generators SHOULD encode line
-  breaks in this parameter as \n, as they are for property values,
-  rather than as ^n.  Parsers MUST decode both \n and ^n in a LABEL
-  value as a line break.  Other characters in the value are escaped
-  as described in [](#param-escaping).
+  string representing the formatted address.  The escaping rules for
+  this parameter, including the compatibility rules for line breaks,
+  are described in [](#param-escaping).
 
 ABNF:
 
