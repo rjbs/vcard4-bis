@@ -606,7 +606,7 @@ disallowed to prevent confusion with YYMMDD.  Note also that
 YYYY-MM-DD is disallowed since we are using the basic format instead
 of the extended format.
 
-### TIME
+### TIME {#type-time}
 
 A time of day as specified in {{ISO.8601.2004}}, Section 4.2.
 
@@ -798,7 +798,7 @@ language-param = "LANGUAGE=" Language-Tag
   ; Language-Tag is defined in section 2.1 of RFC 5646
 ~~~
 
-## VALUE
+## VALUE {#param-value-type}
 
 The VALUE parameter is OPTIONAL, used to identify the value type
 (data type) and format of the value.  The use of these predefined
@@ -1603,7 +1603,7 @@ Examples:
           BDAY;VALUE=text:circa 1800
 ~~~
 
-### ANNIVERSARY
+### ANNIVERSARY {#prop-anniversary}
 
 Purpose
 : The date of marriage, or equivalent, of the object the
@@ -3168,7 +3168,7 @@ document.  They are left up to the synchronization engine.  This
 example is merely intended to illustrate the possibility, which
 investigating would be, in the author's opinion, worthwhile.
 
-# Upgrading Considerations
+# Upgrading Considerations {#upgrading}
 
 At the time of writing, vCard 3.0, which was obsoleted by vCard 4.0 in 2011, is
 still in widespread use.  There are complications related to upgrading from
@@ -3807,11 +3807,55 @@ to {{?RFC6350}}.  It is not exhaustive.
   document replaces the provisions of RFC 6868 that apply to vCard; its
   provisions for iCalendar are unaffected.
 
+* The BIRTHPLACE, DEATHPLACE, and DEATHDATE properties, defined in
+  {{?RFC6474}}, have been incorporated.  The LANGUAGE parameter is now
+  limited to text values on BIRTHPLACE and DEATHPLACE.
+
+## Other Changes
+
 * The LABEL parameter of the ADR property continues to encode line breaks
   as \n, for compatibility with RFC 6350 implementations, but parsers must
   also accept the ^n encoding of [](#param-escaping).  Parsers also accept \N,
   which RFC 6350 permitted as an alternative to \n.
 
-* The BIRTHPLACE, DEATHPLACE, and DEATHDATE properties, defined in
-  {{?RFC6474}}, have been incorporated.  The LANGUAGE parameter is now
-  limited to text values on BIRTHPLACE and DEATHPLACE.
+* The MEMBER property may now have a text value, which refers to a member
+  vCard by its UID when that UID is itself a text value, as is common for
+  vCards converted from vCard 3.0.  A rule for comparing UID and MEMBER
+  values, including values of differing types, has been added (see
+  [](#prop-uid) and [](#prop-member)).
+
+* The rules for backslash escaping in property values have been rewritten
+  (see [](#value-escaping)).  Escaping now applies only to "text" and
+  "component" values.  In particular, a COMMA or SEMICOLON in a URI value is
+  not escaped, although parsers may accept such escapes in data produced
+  under RFC 6350.  The ABNF for "text" now also permits an escaped
+  SEMICOLON, as the prose of RFC 6350 already did.  This resolves RFC 6350
+  errata 3845, 3846, and 6864, RFC 6474 errata 4557 and 4559, and RFC 6868
+  erratum 4383.
+
+* The truncated forms of a "time" value no longer permit a time zone,
+  consistent with ISO 8601 (see [](#type-time)).
+
+* The ANNIVERSARY property now permits the LANGUAGE parameter when its
+  value is text, as BDAY does (see [](#prop-anniversary)).
+
+* An unquoted parameter value may no longer contain a COMMA, which
+  separates the elements of a multi-valued parameter.  The "SAFE-CHAR" ABNF
+  rule has been changed accordingly.
+
+* A property defined outside this document whose default value type is not
+  "text" should include the VALUE parameter on every instance, and its
+  registration should specify no default value type (see
+  [](#param-value-type) and [](#registering-elements)).
+
+* A section on upgrading vCard 3.0 data to vCard 4.0 has been added (see
+  [](#upgrading)).
+
+* Examples that wrote a multi-valued parameter as a single quoted string,
+  such as `TYPE="voice,home"`, have been corrected.  A quoted parameter
+  value is a single value even if it contains a COMMA; `TYPE=voice,home`
+  gives two values.
+
+* Many other errata against RFC 6350 have been applied, correcting
+  typographical errors, examples, cross-references, and details of the
+  ABNF.
