@@ -1145,9 +1145,9 @@ index-value = integer
 Examples:
 
 ~~~
-  ORG-URI;INDEX=1:http://mycompany.example1.com
+  ORG-DIRECTORY;INDEX=1:http://mycompany.example1.com
 
-  ORG-URI;PREF=1;INDEX=2:http://mycompany.example2.com
+  ORG-DIRECTORY;PREF=1;INDEX=2:http://mycompany.example2.com
 ~~~
 
 ## LEVEL {#param-level}
