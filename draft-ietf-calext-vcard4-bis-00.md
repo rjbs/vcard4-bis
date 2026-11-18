@@ -348,6 +348,13 @@ For example, ALTID, SORT-AS, LABEL, and the "param-value" alternative of TZ
 use this escaping.  GEO and the quoted URI alternative of TZ use the URI
 grammar and do not use this escaping.
 
+A quoted TZ value matches both alternatives of the TZ grammar, so a parser
+cannot always tell from the syntax alone which one applies.  This ambiguity
+is harmless.  A valid URI contains no CIRCUMFLEX ACCENT, DQUOTE, or line
+break ({{RFC3986}}), so encoding it under these rules changes nothing, and
+decoding a valid URI under these rules leaves it unchanged.  A parser MAY
+therefore apply the decoding rules to any TZ parameter value.
+
 When generating a "param-value" element, the following encodings MUST be
 applied, subject to the LABEL exception below:
 
