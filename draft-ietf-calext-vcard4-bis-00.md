@@ -2532,7 +2532,7 @@ Examples:
   ORG-DIRECTORY;INDEX=1:http://directory.mycompany.example.com
 
   ORG-DIRECTORY;PREF=1:ldap://ldap.tech.example/
-  o=Example%20Tech,ou=Engineering
+   o=Example%20Tech,ou=Engineering
 ~~~
 
 ## Explanatory Properties
