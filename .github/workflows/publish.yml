@@ -36,18 +36,20 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Build HTML
-        run: make html && sudo chmod -R a+w build
+        run: |
+          make html && sudo chmod -R a+w build
+          echo "DRAFT=$(make -s print-draft)" >> "$GITHUB_ENV"
 
       - name: Inject commit banner
         env:
           SHA: ${{ github.sha }}
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
         run: |
-          SHORT=${SHA:0:7}
           python3 - <<'EOF'
           import os, re
           sha      = os.environ["SHA"]
           repo_url = os.environ["REPO_URL"]
+          draft    = os.environ["DRAFT"]
           short    = sha[:7]
           url      = f"{repo_url}/commit/{sha}"
           banner   = (
@@ -55,7 +57,7 @@ jobs:
               f'\U000026A0\uFE0F This is just a draft of a draft, built from commit <a href="{url}">{short}</a>'
               f'</div>'
           )
-          src  = "build/draft-ietf-calext-vcard4-bis-00.html"
+          src  = f"build/{draft}.html"
           html = open(src).read()
           html = re.sub(r"(<body[^>]*>)", r"\1" + banner, html, count=1)
           open(src, "w").write(html)

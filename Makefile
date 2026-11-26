@@ -7,7 +7,7 @@ IMAGE  = vcard4-bis-tools
 SILENCE = --silence 'Unused reference: There seems to be no reference to [RFC2045]' \
           --silence 'Unused reference: There seems to be no reference to [RFC6838]'
 
-.PHONY: all xml html txt clean docker-build
+.PHONY: all xml html txt clean docker-build print-draft
 
 all: html txt
 
@@ -30,6 +30,9 @@ $(BUILD).txt: $(BUILD).xml
 xml: $(BUILD).xml
 html: $(BUILD).html
 txt: $(BUILD).txt
+
+print-draft:
+	@echo $(DRAFT)
 
 clean:
 	rm -f $(BUILD).xml $(BUILD).html $(BUILD).txt
